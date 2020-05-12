@@ -3,6 +3,8 @@
 
 using namespace std;
 
+int luminosite_environnement=300;
+
 //classe AnalogSensorTemperature
 AnalogSensorTemperature::AnalogSensorTemperature(int d,int  t):Device(),val(t),temps(d){
   alea=1;
@@ -47,7 +49,27 @@ void I2CActuatorScreen::run(){
     }
 }
 
+// classe AnalogSensorLuminosity
 
+AnalogSensorLuminosity::AnalogSensorLuminosity(int d):Device(),val(luminosite_environnement),temps(d){
+  alea=1;
+}
+  
+void AnalogSensorLuminosity::run(){
+  while(1){
+    alea=1-alea;
+    if(ptrmem!=NULL)
+      *ptrmem=val+alea;
+    sleep(temps);
+  }
+}
 
+// classe IntelligentDigitalActutatorLED
 
+IntelligentDigitalActuatorLED::IntelligentDigitalActuatorLED(int t): DigitalActuatorLED(t){
+    luminosite_environnement+=50;
+}
 
+IntelligentDigitalActuatorLED::~IntelligentDigitalActuatorLED(){
+    luminosite_environnement-=50;
+}
