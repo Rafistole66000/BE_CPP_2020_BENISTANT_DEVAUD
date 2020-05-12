@@ -1,0 +1,10 @@
+g++ -Wall -std=c++11 -c board.cpp
+g++ -Wall -std=c++11 -c core_simulation.cpp
+g++ -Wall -std=c++11 -c mydevices.cpp
+g++ -Wall -std=c++11   -c -o sketch_ino.o sketch_ino.cpp
+g++ -Wall -std=c++11 -o arduino ./Objects/board.o ./Objects/core_simulation.o ./Objects/mydevices.o ./sketch_ino.o
+g++: error: ./Objects/board.o: No such file or directory
+g++: error: ./Objects/core_simulation.o: No such file or directory
+g++: error: ./Objects/mydevices.o: No such file or directory
+Makefile:12: recipe for target 'arduino' failed
+make: *** [arduino] Error 1

@@ -1,0 +1,46 @@
+called: g++
+	/home/raphael/Desktop/Cpp/BE/BE_CPP_2020_BENISTANT_DEVAUD/src
+	g++
+	-Wall
+	-std=c++11
+	-c
+	board.cpp
+
+called: g++
+	/home/raphael/Desktop/Cpp/BE/BE_CPP_2020_BENISTANT_DEVAUD/src
+	g++
+	-Wall
+	-std=c++11
+	-c
+	core_simulation.cpp
+
+called: g++
+	/home/raphael/Desktop/Cpp/BE/BE_CPP_2020_BENISTANT_DEVAUD/src
+	g++
+	-Wall
+	-std=c++11
+	-c
+	mydevices.cpp
+
+called: g++
+	/home/raphael/Desktop/Cpp/BE/BE_CPP_2020_BENISTANT_DEVAUD/src
+	g++
+	-Wall
+	-std=c++11
+	-c
+	-o
+	sketch_ino.o
+	sketch_ino.cpp
+
+called: g++
+	/home/raphael/Desktop/Cpp/BE/BE_CPP_2020_BENISTANT_DEVAUD/src
+	g++
+	-Wall
+	-std=c++11
+	-o
+	arduino
+	./Objects/board.o
+	./Objects/core_simulation.o
+	./Objects/mydevices.o
+	./sketch_ino.o
+
