@@ -4,7 +4,6 @@
     <df root="." name="0">
       <df name="Objects">
       </df>
-      <in>.#mydevices.h</in>
       <in>board.cpp</in>
       <in>core_simulation.cpp</in>
       <in>core_simulation.h</in>
