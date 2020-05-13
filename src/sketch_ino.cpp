@@ -12,6 +12,7 @@ void Board::setup(){
   pinMode(0,OUTPUT);
   pinMode(2,INPUT); //capteur de température
   pinMode(3,OUTPUT); //intLed1
+  pinMode(4,INPUT); //bouton1
 }
 
 // la boucle de controle arduino
@@ -22,7 +23,13 @@ void Board::loop(){
   static int cpt=0;
   static int bascule=0;
   int i=0;
-  for(i=0;i<10;i++){
+  for(i=0;i<6;i++){
+      
+      if(digitalRead(4)==ON)//Bouton and LED
+          digitalWrite(3,HIGH);
+      else
+          digitalWrite(3,LOW);
+    
     // lecture sur la pin 1 : capteur de temperature
     val=analogRead(1);
     sprintf(buf,"temperature %d",val);
@@ -32,14 +39,11 @@ void Board::loop(){
     sprintf(buf,"luminosite %d",lum);
     Serial.println(buf);
     
-    if(cpt%5==0){
+    if(cpt%3==0){
         // tous les 5 fois on affiche sur l ecran la temperature
       sprintf(buf,"%d",val);
       bus.write(1,buf,100);
-    }
-    
-    sprintf(buf,"lum env %d",luminosite_environnement);
-    bus.write(1,buf,100);   
+    }  
     
     cpt++;
     sleep(1);
@@ -49,12 +53,6 @@ void Board::loop(){
     digitalWrite(0,HIGH);
   else
     digitalWrite(0,LOW);
-  // on eteint et on allume la intLed1
-  if(bascule)
-      digitalWrite(3,HIGH);
-  else
-      digitalWrite(3,LOW);
-  
   bascule=1-bascule;
     
   

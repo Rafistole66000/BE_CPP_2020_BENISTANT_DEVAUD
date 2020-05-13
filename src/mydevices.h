@@ -6,6 +6,7 @@
 #include <unistd.h>
 #include <string.h>
 #include "core_simulation.h"
+#include <fstream>
 
 extern int luminosite_environnement;
 
@@ -75,6 +76,17 @@ private:
 public:
     // initialisation du temps de rafraichissement et augmentation de la luminosité
     IntelligentDigitalActuatorLED(int t);
+    virtual void run();
+    
+};
+
+//Interaction extérieure avec le simulateur
+class ExternalDigitalSensorButton : public Device{
+private: 
+    int state;
+    int temps;
+public:
+    ExternalDigitalSensorButton(int t);
     virtual void run();
     
 };

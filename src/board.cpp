@@ -10,6 +10,7 @@ int main(){
   
   DigitalActuatorLED led1(DELAY);
   IntelligentDigitalActuatorLED intLed1(DELAY); //Creation of my Intelligent LED
+  ExternalDigitalSensorButton bouton1(DELAY);
   
   I2CActuatorScreen screen;
   
@@ -20,6 +21,8 @@ int main(){
   
   esp8266.pin(2,luminosite); //Capteur de température relié à pin 2
   esp8266.pin(3,intLed1); //Notre première Led intelligente
+  esp8266.pin(4,bouton1); //Notre bouton externe
+  
   
   // allumage de la carte
   esp8266.run();

@@ -10,6 +10,8 @@
 #define TEMP 22
 #define HIGH 1
 #define LOW 0
+#define ON 1
+#define OFF 0
 #define MAX_I2C_DEVICES 4
 #define I2C_BUFFER_SIZE 1024
 #define MAX_IO_PIN 6
