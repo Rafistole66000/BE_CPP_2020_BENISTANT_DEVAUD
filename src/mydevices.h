@@ -29,7 +29,7 @@ public:
 
 // exemple d'actionneur digital : une led, ne pas oublier d'heriter de Device
 class DigitalActuatorLED: public Device {
-private:
+protected:
   // etat de la LED
   int state;
   // temps entre 2 affichage de l etat de la led
@@ -69,12 +69,14 @@ public:
     virtual void run();
 };
 
-class IntelligentDigitalActuatorLED : protected DigitalActuatorLED{
+class IntelligentDigitalActuatorLED : public DigitalActuatorLED{
+private:
+    int previous_state;
 public:
     // initialisation du temps de rafraichissement et augmentation de la luminosité
     IntelligentDigitalActuatorLED(int t);
-    // destruction avec diminution de la luminosité
-    ~IntelligentDigitalActuatorLED();
+    virtual void run();
+    
 };
 
 #endif

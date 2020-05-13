@@ -1,6 +1,8 @@
 #include <unistd.h>
 #include "core_simulation.h"
 
+extern int luminosite_environnement;
+
 // la fonction d'initialisation d'arduino
 void Board::setup(){
   // on configure la vitesse de la liaison
@@ -9,6 +11,7 @@ void Board::setup(){
   pinMode(1,INPUT);
   pinMode(0,OUTPUT);
   pinMode(2,INPUT); //capteur de température
+  pinMode(3,OUTPUT); //intLed1
 }
 
 // la boucle de controle arduino
@@ -34,6 +37,10 @@ void Board::loop(){
       sprintf(buf,"%d",val);
       bus.write(1,buf,100);
     }
+    
+    sprintf(buf,"lum env %d",luminosite_environnement);
+    bus.write(1,buf,100);   
+    
     cpt++;
     sleep(1);
   }
@@ -42,7 +49,14 @@ void Board::loop(){
     digitalWrite(0,HIGH);
   else
     digitalWrite(0,LOW);
+  // on eteint et on allume la intLed1
+  if(bascule)
+      digitalWrite(3,HIGH);
+  else
+      digitalWrite(3,LOW);
+  
   bascule=1-bascule;
+    
   
 }
 
