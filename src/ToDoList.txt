@@ -1,0 +1,7 @@
+Codage:
+	- Faire le UART => OK
+
+Conception
+	- Conception préliminaire => OK
+	- Use Case Diagram propre => OK
+
