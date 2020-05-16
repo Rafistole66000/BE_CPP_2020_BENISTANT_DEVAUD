@@ -13,11 +13,13 @@ int main(){
   ExternalDigitalSensorButton bouton1(DELAY);
   
   I2CActuatorScreen screen;
+  UARTActuatorScreen screen_uart;
   
   // branchement des capteurs actionneurs
   esp8266.pin(1,temperature);
   esp8266.pin(0,led1);
   esp8266.i2c(1,screen);
+  esp8266.uart(1,screen_uart);
   
   esp8266.pin(2,luminosite); //Capteur de température relié à pin 2
   esp8266.pin(3,intLed1); //Notre première Led intelligente

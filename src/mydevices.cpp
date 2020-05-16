@@ -49,6 +49,20 @@ void I2CActuatorScreen::run(){
     }
 }
 
+// classe I2CActuatorScreen
+UARTActuatorScreen::UARTActuatorScreen ():Device(){
+  }
+
+void UARTActuatorScreen::run(){
+  while(1){
+    if ( (UARTbus!=NULL)&&!(UARTbus->isEmptyRegister(UARTaddr))){
+      Device::UARTbus->requestFrom(UARTaddr, buf, UART_BUFFER_SIZE);
+      cout << "---UART :"<< buf << endl;
+    }
+    sleep(1);
+    }
+}
+
 // classe AnalogSensorLuminosity
 
 AnalogSensorLuminosity::AnalogSensorLuminosity(int d):Device(),val(luminosite_environnement),temps(d){

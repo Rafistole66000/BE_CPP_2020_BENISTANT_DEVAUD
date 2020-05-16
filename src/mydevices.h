@@ -56,6 +56,19 @@ public:
   virtual void run();
 };
 
+// exemple d'actionneur sur le bus UART permettant d'echanger des tableaux de caracteres : un ecran, ne pas oublier d'heriter de Device
+class UARTActuatorScreen : public Device{
+protected:
+    // memorise l'affichage de l'ecran
+  char buf[UART_BUFFER_SIZE];
+  
+public:
+  // constructeur
+  UARTActuatorScreen ();
+  // thread representant le capteur et permettant de fonctionner independamment de la board
+  virtual void run();
+};
+
 class AnalogSensorLuminosity : public Device{
 private:
   // fait osciller la valeur du cpateur de 1

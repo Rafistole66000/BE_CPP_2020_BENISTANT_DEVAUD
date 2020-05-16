@@ -11,10 +11,10 @@ int BoardException::get(){return num;}
 string BoardException::text(){
   string s;
   switch(num){
-  case SPEED : s=string("mauvaise vitesse de la laison terminal");break;
-  case INOUT : s=string("mauvaise utilisation du sens de l'entree/sortie"); break;
+  case SPEED : s=string("mauvaise vitesse de la liaison terminal");break;
+  case INOUT : s=string("mauvaise utilisation du sens de l'entrée/sortie"); break;
   case ADDRESS : s=string("mauvaise adresse de la pin"); break;
-  case SIZE : s=string("taille erronee"); break;
+  case SIZE : s=string("taille erronée"); break;
   case EMPTY: s=string("zone vide"); break;
   default: s=string("erreur inconnue");
   }
@@ -89,6 +89,64 @@ bool* I2C::getVide(int addr){
   return (&vide[addr]);
 }
 
+// representatoin du bus UART
+UART::UART(){
+  for(int i=0;i<MAX_UART_DEVICES;i++){
+    registre[i]=new char[UART_BUFFER_SIZE];
+    vide[i]=true;
+  }
+}
+
+bool UART::isEmptyRegister(int addr){
+  bool result=true;
+  if ((addr>=0)&&(addr<MAX_UART_DEVICES))
+    result=vide[addr];
+  else
+    throw BoardException(ADDRESS);
+  return result;
+}
+
+int UART::write(int addr, char* bytes, int size){
+  if ((addr<0)||(addr>=MAX_UART_DEVICES))
+    throw BoardException(ADDRESS);
+  if ((size<0)||(size>UART_BUFFER_SIZE))
+    throw BoardException(SIZE);
+  tabmutex[addr].lock();
+  memcpy(registre[addr],bytes,size*sizeof(char));
+  vide[addr]=false;
+  tabmutex[addr].unlock();
+  return size;
+}
+
+int UART::requestFrom(int addr, char* bytes, int size){
+  int result =0;
+  if ((addr<0)||(addr>=MAX_UART_DEVICES))
+    throw BoardException(ADDRESS);
+  if ((size<0)||(size>UART_BUFFER_SIZE))
+    throw BoardException(SIZE);
+  if (vide[addr]==false){
+    tabmutex[addr].lock();
+    memcpy(bytes,registre[addr],size*sizeof(char));
+    vide[addr]=true;
+    tabmutex[addr].unlock();
+    result =size;
+  }
+  return result;
+}
+
+char * UART::getRegistre(int addr){
+  if ((addr<0)||(addr>=MAX_UART_DEVICES))
+    throw BoardException(ADDRESS);
+  return (registre[addr]);
+}
+
+bool* UART::getVide(int addr){
+  if ((addr<0)||(addr>=MAX_UART_DEVICES))
+    throw BoardException(ADDRESS);
+  return (&vide[addr]);
+}
+
+
 // classe generique reprenstant un capteur/actionneur
 Device::Device(){
   ptrtype=NULL;
@@ -114,6 +172,11 @@ void Device::setI2CAddr(int addr, I2C * bus){
   i2cbus=bus;
 }
 
+void Device::setUARTAddr(int addr, UART * bus_uart){
+  UARTaddr=addr;
+  UARTbus=bus_uart;
+}
+
 // classe representant une carte arduino
 void Board::run(){
   try{
@@ -121,7 +184,7 @@ void Board::run(){
     while(1) loop();
   }
   catch(BoardException e){
-    cout <<"exception: "<<e.get() <<endl;
+    cout <<"exception: "<<e.text() <<endl;
   }
 }
 
@@ -174,3 +237,9 @@ void Board::i2c(int addr,Device& dev){
   tabthreadbus[addr]=new thread(&Device::run,&dev);
 }
 
+void Board::uart(int addr,Device& dev){
+  if ((addr<0)||(addr>=MAX_UART_DEVICES))
+    throw BoardException(ADDRESS);
+  dev.setUARTAddr(addr,&bus_uart);
+  tabthreadbusUART[addr]=new thread(&Device::run,&dev);
+}

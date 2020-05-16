@@ -12,7 +12,7 @@ void Board::setup(){
   pinMode(0,OUTPUT);
   pinMode(2,INPUT); //capteur de température
   pinMode(3,OUTPUT); //intLed1
-  pinMode(4,INPUT); //bouton1
+  pinMode(4,INPUT); //intLed1
 }
 
 // la boucle de controle arduino
@@ -43,6 +43,9 @@ void Board::loop(){
         // tous les 5 fois on affiche sur l ecran la temperature
       sprintf(buf,"%d",val);
       bus.write(1,buf,100);
+      //testUART
+      sprintf(buf,"%c%c%c%c%c",'s','a','l','u','t');
+      bus_uart.write(1,buf,100);
     }  
     
     cpt++;
