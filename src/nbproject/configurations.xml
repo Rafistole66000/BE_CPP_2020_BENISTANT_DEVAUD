@@ -3,6 +3,7 @@
   <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
     <df root="." name="0">
       <df name="Custom_Devices">
+        <in>Wifi_module.cpp</in>
         <in>pulse_sensor.cpp</in>
       </df>
       <in>board.cpp</in>
@@ -46,6 +47,10 @@
           <preBuildCommand></preBuildCommand>
         </preBuild>
       </makefileType>
+      <item path="Custom_Devices/Wifi_module.cpp" ex="false" tool="1" flavor2="8">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
       <item path="Custom_Devices/pulse_sensor.cpp" ex="false" tool="1" flavor2="8">
         <ccTool flags="0">
         </ccTool>

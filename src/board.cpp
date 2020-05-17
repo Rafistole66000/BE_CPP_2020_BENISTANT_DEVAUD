@@ -15,6 +15,7 @@ int main(){
   ExternalDigitalSensorButton bouton1(DELAY);
   
   I2CActuatorScreen screen;
+  I2CActuatorWifiModule wifi;
   UARTActuatorScreen screen_uart;
   
   // branchement des capteurs actionneurs
@@ -25,12 +26,13 @@ int main(){
   
   esp8266.pin(2,luminosite); //Capteur de température relié à pin 2
   esp8266.pin(3,intLed1); //Notre première Led intelligente
-  esp8266.pin(4,bouton1); //Notre bouton externe
+  esp8266.pin(4,bouton1); //Notre boI2CActuatorScreenuton externe
   esp8266.pin(5,pulse); //Notre capteur de pulstation
   
   
   // allumage de la carte
-  esp8266.run();
+  wifi.connect();
+  //esp8266.run();
   return 0;
 }
 

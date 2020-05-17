@@ -8,6 +8,7 @@
 #include "core_simulation.h"
 #include <fstream>
 #include "Custom_Devices/pulse_sensor.h"
+#include "Custom_Devices/Wifi_module.h"
 
 extern int luminosite_environnement;
 

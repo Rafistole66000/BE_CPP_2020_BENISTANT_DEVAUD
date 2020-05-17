@@ -15,13 +15,7 @@
 #ifndef PULSE_SENSOR_H
 #define PULSE_SENSOR_H
 
-#include <iostream>
-#include <thread>
-#include <unistd.h>
-#include <string.h>
-#include "../core_simulation.h"
-#include <fstream>
-#include <cmath>
+#include "Common_includes.h"
 
 //Pulse global variable
 extern int Time_Between_Two_Pulse;
