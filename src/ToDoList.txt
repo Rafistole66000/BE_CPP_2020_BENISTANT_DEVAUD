@@ -1,5 +1,6 @@
 Codage:
 	- Faire le UART => OK
+	- Faire le Pulse Sensor =>
 
 Conception
 	- Conception préliminaire => OK
