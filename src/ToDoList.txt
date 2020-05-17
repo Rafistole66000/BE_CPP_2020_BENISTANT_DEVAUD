@@ -1,6 +1,8 @@
 Codage:
 	- Faire le UART => OK
 	- Faire le Pulse Sensor => OK
+	- Faire le WIFI module => En Cours
+		- simuler la connection avec user et password => OK
 
 Conception
 	- Conception préliminaire => OK
