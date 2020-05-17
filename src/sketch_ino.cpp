@@ -1,5 +1,6 @@
 #include <unistd.h>
 #include "core_simulation.h"
+#include "Custom_Devices/pulse_sensor.h"
 
 extern int luminosite_environnement;
 
@@ -13,6 +14,7 @@ void Board::setup(){
   pinMode(2,INPUT); //capteur de température
   pinMode(3,OUTPUT); //intLed1
   pinMode(4,INPUT); //intLed1
+  pinMode(5,INPUT); //capteur de pulsation
 }
 
 // la boucle de controle arduino
@@ -20,6 +22,7 @@ void Board::loop(){
   char buf[100];
   int val;
   int lum;
+  int puls;
   static int cpt=0;
   static int bascule=0;
   int i=0;
@@ -38,6 +41,10 @@ void Board::loop(){
     lum=analogRead(2);       
     sprintf(buf,"luminosite %d",lum);
     Serial.println(buf);
+ 
+    puls=analogRead(5);       
+    sprintf(buf,"pulsation %d",puls);
+    Serial.println(buf);
     
     if(cpt%3==0){
         // tous les 5 fois on affiche sur l ecran la temperature
@@ -46,7 +53,12 @@ void Board::loop(){
       //testUART
       sprintf(buf,"%c%c%c%c%c",'s','a','l','u','t');
       bus_uart.write(1,buf,100);
-    }  
+    }
+    
+    if(cpt%10==0 && cpt!=0){
+        //cout << "Pulsation changes";
+        Time_Between_Two_Pulse=300;
+    } 
     
     cpt++;
     sleep(1);

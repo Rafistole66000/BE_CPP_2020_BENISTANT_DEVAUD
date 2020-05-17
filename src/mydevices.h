@@ -7,6 +7,7 @@
 #include <string.h>
 #include "core_simulation.h"
 #include <fstream>
+#include "Custom_Devices/pulse_sensor.h"
 
 extern int luminosite_environnement;
 
