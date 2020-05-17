@@ -2,9 +2,9 @@ CC=g++
 CXXFLAGS=-Wall -std=c++11 -pthread
 
 TARGET=arduino
-SOURCES=board.cpp core_simulation.cpp mydevices.cpp sketch_ino.cpp
-HEADER=core_simulation.h mydevices.h
-OBJECTS=./Objects/board.o ./Objects/core_simulation.o ./Objects/mydevices.o ./Objects/sketch_ino.o
+SOURCES=board.cpp core_simulation.cpp mydevices.cpp sketch_ino.cpp ./Custom_Devices/pulse_sensor.cpp
+HEADER=core_simulation.h mydevices.h ./Custom_Devices/pulse_sensor.h
+OBJECTS=./Objects/board.o ./Objects/core_simulation.o ./Objects/mydevices.o ./Objects/sketch_ino.o ./Objects/pulse_sensor.o
 
 all: $(TARGET)
 
@@ -17,7 +17,10 @@ $(TARGET): $(OBJECTS)
 ./Objects/core_simulation.o: core_simulation.cpp core_simulation.h
 	$(CC) $(CXXFLAGS) -o $@ -c $<
 
-./Objects/mydevices.o: mydevices.cpp mydevices.h
+./Objects/mydevices.o: mydevices.cpp mydevices.h ./Custom_Devices/pulse_sensor.h
+	$(CC) $(CXXFLAGS) -o $@ -c $<
+
+./Objects/pulse_sensor.o: ./Custom_Devices/pulse_sensor.cpp ./Custom_Devices/pulse_sensor.h
 	$(CC) $(CXXFLAGS) -o $@ -c $<
 
 ./Objects/sketch_ino.o: sketch_ino.cpp core_simulation.h

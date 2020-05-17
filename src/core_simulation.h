@@ -14,6 +14,8 @@
 #define OFF 0
 #define MAX_I2C_DEVICES 4
 #define I2C_BUFFER_SIZE 1024
+#define MAX_UART_DEVICES 4
+#define UART_BUFFER_SIZE 1024
 #define MAX_IO_PIN 6
 
 using namespace std;
@@ -67,6 +69,30 @@ public:
     bool* getVide(int addr);
 };
 
+// representatoin du bus UART
+class UART{
+protected:
+    // zone memoire d'echange pour chaque element connecte sur le bus
+  char * registre[MAX_UART_DEVICES];
+    // etat de la zone memoire d'echange pour chaque element vide ou pas
+  bool vide[MAX_UART_DEVICES];
+    // outil pour eviter les conflits en lecture ecriture sur le bus
+  mutex tabmutex[MAX_UART_DEVICES];
+public:
+    // constructeur des différents attributs: memoire, etat et synchonisation
+    UART();
+  // est ce qu il y a quelque chose a lire pour le device numero addr
+    bool isEmptyRegister(int addr);
+   // ecriture d'un ensemble d'octets dansle registre du device numero addr
+    int write(int addr, char* bytes, int size);
+   // lecture d'un ensemble d'octets dans le registre du device numero addr
+    int requestFrom(int addr, char* bytes, int size);
+    // recuperation de la zone memoire du registre du device numero addr
+    char * getRegistre(int addr);
+  // est ce que le registre du device numero addr EST VIDE
+    bool* getVide(int addr);
+};
+
 // representation generique d'un capteur ou d'un actionneur numerique, analogique ou sur le bue I2C
 class Device{
 protected:
@@ -78,6 +104,11 @@ protected:
   int i2caddr;
     // lien sur l'objet representant le bus I2C
   I2C *i2cbus;
+    // numero sur le bus UART
+  int UARTaddr;
+    // lien sur l'objet representant le bus UART
+  UART *UARTbus;
+
 public:
     // constructeur initialisant le minimum
     Device();
@@ -87,6 +118,8 @@ public:
     void setPinMem(unsigned short* ptr,enum typeio *c);
     // lien entre le device I2C et la carte arduino
     void setI2CAddr(int addr, I2C * bus);
+    // lien entre le device UART et la carte arduino
+    void setUARTAddr(int addr, UART * bus_uart);
 };
 
 // classe representant une carte arduino
@@ -100,17 +133,23 @@ public:
   thread *tabthreadpin[MAX_IO_PIN];
     // representation du bus I2C
   I2C bus;
+    // representation du bus UART
+  UART bus_uart;   
     // representation de la liaison terminal
   Terminal Serial;
     // threads representant chaque senseur/actionneur sur le bus I2C
   thread *tabthreadbus[MAX_I2C_DEVICES];
-    
+    // threads representant chaque senseur/actionneur sur le bus I2C
+  thread *tabthreadbusUART[MAX_UART_DEVICES];
+  
 // simulation de la boucle de controle arduino
     void run();
   // accroachage d'un senseur/actionneur à une pin
     void pin(int p, Device& s);
     // accroachage d'un senseur/actionneur à une adresse du bus I2C
       void i2c(int addr,Device& dev);
+    // accroachage d'un senseur/actionneur à une adresse du bus UART
+      void uart(int addr,Device& dev);
  // fonction arduino : configuration d'une pin en entree ou en sortie
     void pinMode(int p,enum typeio t);
   // fonction arduino : ecriture HIGH ou LOW sur une pin

@@ -7,6 +7,7 @@
 #include <string.h>
 #include "core_simulation.h"
 #include <fstream>
+#include "Custom_Devices/pulse_sensor.h"
 
 extern int luminosite_environnement;
 
@@ -52,6 +53,19 @@ protected:
 public:
   // constructeur
   I2CActuatorScreen ();
+  // thread representant le capteur et permettant de fonctionner independamment de la board
+  virtual void run();
+};
+
+// exemple d'actionneur sur le bus UART permettant d'echanger des tableaux de caracteres : un ecran, ne pas oublier d'heriter de Device
+class UARTActuatorScreen : public Device{
+protected:
+    // memorise l'affichage de l'ecran
+  char buf[UART_BUFFER_SIZE];
+  
+public:
+  // constructeur
+  UARTActuatorScreen ();
   // thread representant le capteur et permettant de fonctionner independamment de la board
   virtual void run();
 };
