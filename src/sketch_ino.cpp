@@ -1,8 +1,6 @@
 #include <unistd.h>
 #include "core_simulation.h"
-#include "Custom_Devices/pulse_sensor.h"
-
-extern int luminosite_environnement;
+#include "mydevices.h"
 
 // la fonction d'initialisation d'arduino
 void Board::setup(){
@@ -28,10 +26,14 @@ void Board::loop(){
   int i=0;
   for(i=0;i<6;i++){
       
-      if(digitalRead(4)==ON)//Bouton and LED
+      if(digitalRead(4)==ON){//Bouton and LED
           digitalWrite(3,HIGH);
-      else
+          connection_request=1;
+      }
+      else{
           digitalWrite(3,LOW);
+          connection_request=0;      
+      }
     
     // lecture sur la pin 1 : capteur de temperature
     val=analogRead(1);
@@ -50,6 +52,7 @@ void Board::loop(){
         // tous les 5 fois on affiche sur l ecran la temperature
       sprintf(buf,"%d",val);
       bus.write(1,buf,100);
+      
       //testUART
       sprintf(buf,"%c%c%c%c%c",'s','a','l','u','t');
       bus_uart.write(1,buf,100);
@@ -69,7 +72,6 @@ void Board::loop(){
   else
     digitalWrite(0,LOW);
   bascule=1-bascule;
-    
   
 }
 

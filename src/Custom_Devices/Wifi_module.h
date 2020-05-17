@@ -16,6 +16,8 @@
 
 #include "Common_includes.h"
 
+extern bool connection_request;
+
 #ifdef __cplusplus
 extern "C" {
 #endif

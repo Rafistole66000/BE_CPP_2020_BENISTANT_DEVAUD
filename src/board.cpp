@@ -16,6 +16,7 @@ int main(){
   
   I2CActuatorScreen screen;
   I2CActuatorWifiModule wifi;
+  
   UARTActuatorScreen screen_uart;
   
   // branchement des capteurs actionneurs
@@ -23,6 +24,8 @@ int main(){
   esp8266.pin(0,led1);
   esp8266.i2c(1,screen);
   esp8266.uart(1,screen_uart);
+  esp8266.i2c(2,wifi);
+  
   
   esp8266.pin(2,luminosite); //Capteur de température relié à pin 2
   esp8266.pin(3,intLed1); //Notre première Led intelligente
@@ -31,8 +34,8 @@ int main(){
   
   
   // allumage de la carte
-  wifi.connect();
-  //esp8266.run();
+  //wifi.connect();
+  esp8266.run();
   return 0;
 }
 

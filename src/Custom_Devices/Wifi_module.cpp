@@ -8,20 +8,32 @@
 
 using namespace std;
 
-string const Nom_fichier_Spotify="Internet_Spotify.txt" ;
+bool connection_request=0; //Used the first time to connect Wifi
+
+string const Nom_fichier_Spotify="Internet_Spotify.txt";
 
 // classe I2CActuatorScreen
 I2CActuatorWifiModule::I2CActuatorWifiModule():Device(){
   }
 
 void I2CActuatorWifiModule::run(){
-  while(1){
-    if ( (i2cbus!=NULL)&&!(i2cbus->isEmptyRegister(i2caddr))){
-      Device::i2cbus->requestFrom(i2caddr, buf, I2C_BUFFER_SIZE);
-      cout << "---Request:"<< buf << endl;
-    }
-    sleep(1);
-    }
+    bool first_connection=1;
+  
+    while(1){
+        if(!connection_request) //if device turns off then it will reconnect to wifi the next start
+            first_connection=1;
+            
+        if(connection_request && first_connection){ //Only connect if it's the arduino start
+            connect();
+            first_connection=0;
+        }
+
+        if ( (i2cbus!=NULL)&&!(i2cbus->isEmptyRegister(i2caddr))){
+          Device::i2cbus->requestFrom(i2caddr, buf, I2C_BUFFER_SIZE);
+          cout << "---Request:"<< buf << endl;
+        }
+        sleep(1);
+        }
 }
   
 void I2CActuatorWifiModule::connect(){
