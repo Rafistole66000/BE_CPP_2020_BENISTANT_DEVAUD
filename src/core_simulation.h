@@ -23,7 +23,7 @@ using namespace std;
 //Mettez l'adresse à laquelle vous voulez vous connecter ici, dans notre cas Spotify
 string const url="www.spotify.com";
 string const user="Juliette";
-string const password="mdp2";
+string const password="mdp";
 
 enum typeio {OUTPUT, INPUT};
 

@@ -27,26 +27,45 @@ void Board::loop(){
   for(i=0;i<6;i++){
       
       if(digitalRead(4)==ON){//Bouton and LED
-          digitalWrite(3,HIGH);
-          connection_request=1;
+          digitalWrite(3,HIGH);     
+          
+          if(!connected){
+            //Turns the WIFI on
+            connection_request=1;
+            
+            strcpy(buf,url.c_str());//Send URL
+            bus.write(2,buf,100);
+            trigger_get_website=1;
+            while(trigger_get_website){} //Wait Till it's done
+
+            strcpy(buf,user.c_str());//Send User
+            bus.write(2,buf,100);
+            trigger_get_user=1;
+            while(trigger_get_user){} //Wait Till it's done
+
+            strcpy(buf,password.c_str());//Send User
+            bus.write(2,buf,100);
+            trigger_get_password=1;
+            while(trigger_get_password){} //Wait Till it's done
+          }
+          
       }
       else{
           digitalWrite(3,LOW);
-          connection_request=0;      
       }
     
     // lecture sur la pin 1 : capteur de temperature
-    val=analogRead(1);
-    sprintf(buf,"temperature %d",val);
-    Serial.println(buf);
-
-    lum=analogRead(2);       
-    sprintf(buf,"luminosite %d",lum);
-    Serial.println(buf);
- 
-    puls=analogRead(5);       
-    sprintf(buf,"pulsation %d",puls);
-    Serial.println(buf);
+//    val=analogRead(1);
+//    sprintf(buf,"temperature %d",val);
+//    Serial.println(buf);
+//
+//    lum=analogRead(2);       
+//    sprintf(buf,"luminosite %d",lum);
+//    Serial.println(buf);
+// 
+//    puls=analogRead(5);       
+//    sprintf(buf,"pulsation %d",puls);
+//    Serial.println(buf);
     
     if(cpt%3==0){
         // tous les 5 fois on affiche sur l ecran la temperature
@@ -54,7 +73,7 @@ void Board::loop(){
       bus.write(1,buf,100);
       
       //testUART
-      sprintf(buf,"%c%c%c%c%c",'s','a','l','u','t');
+      sprintf(buf,"%d",val);
       bus_uart.write(1,buf,100);
     }
     

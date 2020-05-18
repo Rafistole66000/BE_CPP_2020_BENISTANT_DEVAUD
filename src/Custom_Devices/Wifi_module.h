@@ -17,6 +17,10 @@
 #include "Common_includes.h"
 
 extern bool connection_request;
+extern bool trigger_get_website; //Used the first time to connect Wifi
+extern bool trigger_get_user; //Used the first time to connect Wifi
+extern bool trigger_get_password; //Used the first time to connect Wifi
+extern bool connected; //WIFI is connected
 
 #ifdef __cplusplus
 extern "C" {
@@ -29,16 +33,16 @@ extern "C" {
 // exemple d'actionneur sur le bus I2C permettant d'echanger des tableaux de caracteres : un ecran, ne pas oublier d'heriter de Device
 class I2CActuatorWifiModule : public Device{
 protected:
-    // memorise l'affichage de l'ecran
+    // memorise les données envoyées au module WIFI
   char buf[I2C_BUFFER_SIZE];
   
 public:
   // constructeur
   I2CActuatorWifiModule ();
-  // thread representant le capteur et permettant de fonctionner independamment de la board
-  virtual void run();
   //Connection du Module Wifi à Internet
   void connect();
+  // thread representant le capteur et permettant de fonctionner independamment de la board
+  virtual void run();
 };
 
 #endif /* WIFI_MODULE_H */
