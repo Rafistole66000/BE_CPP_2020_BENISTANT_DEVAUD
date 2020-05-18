@@ -27,12 +27,15 @@ void DigitalActuatorLED::run(){
   while(1){
     if(ptrmem!=NULL)
       state=*ptrmem;
-    if (state==LOW)
-      cout << "((((eteint))))\n";
-    else
-    cout << "((((allume))))\n";
-    sleep(temps);
+    if (state==LOW){
+      //cout << "((((eteint))))\n";
     }
+    else{
+        cout << endl;
+      //cout << "((((allume))))\n";
+    }
+    sleep(temps);
+  }
 }
 
 // classe I2CActuatorScreen
@@ -124,7 +127,8 @@ void ExternalDigitalSensorButton::run(){
                 *ptrmem=state;
         }
         else
-            cout << "Bouton OFF" << endl;
+            cout << endl;
+            //cout << "Bouton OFF" << endl;
       }
       if(state == ON){
         if(!ifstream("on.txt")){// le fichier existe
@@ -132,7 +136,7 @@ void ExternalDigitalSensorButton::run(){
            if(ptrmem!=NULL)
                 *ptrmem=state;
         }
-        cout << "Bouton ON" << endl;
+        //cout << "Bouton ON" << endl;
       }
     sleep(temps);
   }

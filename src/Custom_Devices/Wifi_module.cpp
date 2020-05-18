@@ -16,22 +16,49 @@ bool trigger_get_password=0; //Used the first time to connect Wifi
 bool connected=0;
 
 string const Nom_fichier_Spotify="Internet_Spotify.txt";
+string const Donnees_Spotify="Donnees_Spotify.txt";
 
 // classe I2CActuatorScreen
 I2CActuatorWifiModule::I2CActuatorWifiModule():Device(){
   }
 
 void I2CActuatorWifiModule::run(){
+    ifstream fichier_spotify(Donnees_Spotify); //crée une flux de lecture sur le fichier Donnees_Spotify
+    string ligne; //Permettra de stocker ce qu'on va lire
+    char my_bpm[I2C_BUFFER_SIZE]; //On y va stocker ce qu'on va lire sur le buffer
+    string bpm; //on y va stocker ce qu'on va lire du fichier 
+    string song;
+    
+    istringstream iss;
+    bool trouve=0;
     
     connect();
     
     while(!connected){}
   
     while(1){
+        
         if ( (i2cbus!=NULL)&&!(i2cbus->isEmptyRegister(i2caddr))){
           Device::i2cbus->requestFrom(i2caddr, buf, I2C_BUFFER_SIZE);
-          cout << "---WIFI MODULE: "<< buf << endl;
-        }
+          strcpy(my_bpm,buf);
+          //cout << "---WIFI MODULE: "<< buf << endl;
+          
+          if(fichier_spotify){ // On teste si tout est OK
+            trouve=0;  
+            while(getline(fichier_spotify,ligne) && !trouve){//Des qu'on a trouve une chanson dans le fichier on s'arrete
+                iss.str(ligne);
+                getline(iss, bpm, ':');
+                getline(iss, song, '\n');
+
+                if(my_bpm==bpm){
+                    trouve=1;
+                    cout << "---screen : une chanson à " << my_bpm << "bpm est " << song << endl;
+                }
+                iss.clear();
+            }             
+          }
+      
+        } 
         sleep(1);
         }
 }
@@ -48,20 +75,17 @@ void I2CActuatorWifiModule::connect(){
   
   istringstream iss;
   int trouve;
-  
-  while(1){
       
-      if(connection_request){
+      while(!connection_request){}//
   
-        trouve=0; //passe à 1 si on trouve le user
+        trouve=0; //S'il reste à 0 alors le User est inconnu sinon voir les autres cas plus loin
         
         while(!trigger_get_website){}//Wait Till website is written
         
         if ( (i2cbus!=NULL)&&!(i2cbus->isEmptyRegister(i2caddr))){
           Device::i2cbus->requestFrom(i2caddr, buf, I2C_BUFFER_SIZE);
           strcpy(web,buf);
-          cout << "---WIFI MODULE: "<< buf << endl;
-          trigger_get_website = 0;
+          trigger_get_website = 0; //On rend la main à notre main boucle dans sketch_ino.cpp
         }
         
         while(!trigger_get_user){}//Wait Till website is written
@@ -69,8 +93,7 @@ void I2CActuatorWifiModule::connect(){
         if ( (i2cbus!=NULL)&&!(i2cbus->isEmptyRegister(i2caddr))){
           Device::i2cbus->requestFrom(i2caddr, buf, I2C_BUFFER_SIZE);
           strcpy(my_user,buf);
-          cout << "---WIFI MODULE: "<< buf << endl;
-          trigger_get_user = 0;
+          trigger_get_user = 0; //On rend la main à notre main boucle dans sketch_ino.cpp
         }
         sleep(1);   
 
@@ -79,12 +102,11 @@ void I2CActuatorWifiModule::connect(){
         if ( (i2cbus!=NULL)&&!(i2cbus->isEmptyRegister(i2caddr))){
           Device::i2cbus->requestFrom(i2caddr, buf, I2C_BUFFER_SIZE);
           strcpy(my_password,buf);
-          cout << "---WIFI MODULE: "<< buf << endl;
-          trigger_get_password=0;
+          trigger_get_password=0; //On rend la main à notre main boucle dans sketch_ino.cpp
         }
         sleep(1);    
         
-        cout << "Connection à Internet à l'adresse " << web << endl;
+        cout << "---screen : Connection à Internet à l'adresse " << web << endl;
         
 
         if(fichier_spotify){ // On teste si tout est OK
@@ -96,10 +118,10 @@ void I2CActuatorWifiModule::connect(){
 
                 if(my_user==current_user){
                     if(my_password==current_password){
-                        trouve = 1;
+                        trouve = 1;//Tout est bon
                     }
                     else{
-                        trouve = 2;
+                        trouve = 2;//Le user existe mais le mot de passe est incorrect
                     }
                 }
                 //cout << current_user << " : " << current_password << endl;
@@ -115,20 +137,17 @@ void I2CActuatorWifiModule::connect(){
 
         switch(trouve){
             case 0:
-                cout << "Utilisateur inconnu, connect fails" << endl;
+                cout << "---screen : Utilisateur inconnu, connect fails" << endl;
                 exit(1);
                 break;
             case 1:
-                cout << "Bienvenue " << user << endl;
+                cout << "---screen : Bienvenue " << my_user << endl;
                 connected=1;
                 connection_request=0;
                 break;
             default:
-                cout << "Mot de passe incorrect, connect fails" << endl; 
+                cout << "---screen : Mot de passe incorrect, connect fails" << endl; 
                 exit(1);
         }
-  
-    }
-  }
 }
   
