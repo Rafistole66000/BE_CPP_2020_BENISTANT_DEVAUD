@@ -17,13 +17,13 @@ int main(){
   I2CActuatorScreen screen;
   I2CActuatorWifiModule wifi;
   
-  UARTActuatorScreen screen_uart;
+  UARTActuatorBluetoothModule bluetooth;
   
   // branchement des capteurs actionneurs
   esp8266.pin(1,temperature);
   esp8266.pin(0,led1);
   esp8266.i2c(1,screen);
-  esp8266.uart(1,screen_uart);
+  esp8266.uart(1,bluetooth);
   esp8266.i2c(2,wifi);
   
   

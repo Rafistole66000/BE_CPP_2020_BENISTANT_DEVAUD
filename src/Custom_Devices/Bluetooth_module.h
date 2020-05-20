@@ -14,6 +14,8 @@
 #ifndef BLUETOOTH_MODULE_H
 #define BLUETOOTH_MODULE_H
 
+#include "Common_includes.h"
+
 #ifdef __cplusplus
 extern "C" {
 #endif

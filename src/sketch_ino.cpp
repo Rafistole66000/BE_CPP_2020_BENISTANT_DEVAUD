@@ -32,8 +32,10 @@ void Board::loop(){
       }
       
       if(digitalRead(4)==ON){//Bouton and LED
-          digitalWrite(3,HIGH);     
+          digitalWrite(3,HIGH);
           
+          
+/*
           if(!connected){
             //Turns the WIFI on
             connection_request=1; //On libère la fonction connect de ActuatorI2CWifiModule qui est bloqué sur une boucle while infini
@@ -55,12 +57,19 @@ void Board::loop(){
             
             while(!connected){} //On attend que la connection wifi soit pleinement établie
           }
-          
+*/
+          if(!connected_bluetooth){
+            //Turns the BLuetooth on
+            connection_request_bluetooth=1; //On libère la fonction connect de ActuatorUARTBLuetoothModule qui est bloqué sur une boucle while infini
+            
+            while(!connected_bluetooth){} //On attend que la connection bluetooth soit pleinement établie
+          }
       }
       else{
           digitalWrite(3,LOW);
       }
  
+/*
     puls=analogRead(5);       
     sprintf(buf,"pulsation %d",puls);
     Serial.println(buf);
@@ -70,6 +79,7 @@ void Board::loop(){
       sprintf(buf,"%d",puls);
       bus_uart.write(1,buf,100);
     }
+*/
     
     if(cpt%10==0 && cpt!=0){
         //cout << "Pulsation changes";
