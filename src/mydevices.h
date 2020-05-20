@@ -101,8 +101,9 @@ class ExternalDigitalSensorButton : public Device{
 private: 
     int state;
     int temps;
+    string fichier_correspondant;
 public:
-    ExternalDigitalSensorButton(int t);
+    ExternalDigitalSensorButton(int t, char fichier[]);
     virtual void run();
     
 };

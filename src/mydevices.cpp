@@ -116,12 +116,14 @@ void IntelligentDigitalActuatorLED::IntelligentDigitalActuatorLED::run(){
 
 // classe ExternalDigitalSensorButton
 
-ExternalDigitalSensorButton::ExternalDigitalSensorButton(int t) : Device(),state(OFF), temps(t){};
+ExternalDigitalSensorButton::ExternalDigitalSensorButton(int t, char* fichier) : Device(),state(OFF), temps(t){
+    fichier_correspondant=fichier;
+};
 
 void ExternalDigitalSensorButton::run(){
   while(1){
       if(state == OFF){
-        if(ifstream("on.txt")){// le fichier existe
+        if(ifstream(fichier_correspondant)){// le fichier existe
            state = ON;
            if(ptrmem!=NULL)
                 *ptrmem=state;
@@ -131,7 +133,7 @@ void ExternalDigitalSensorButton::run(){
             //cout << "Bouton OFF" << endl;
       }
       if(state == ON){
-        if(!ifstream("on.txt")){// le fichier existe
+        if(!ifstream(fichier_correspondant)){// le fichier existe
            state = OFF;
            if(ptrmem!=NULL)
                 *ptrmem=state;

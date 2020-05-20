@@ -3,7 +3,10 @@ Codage:
 	- Faire le Pulse Sensor => OK
 	- Faire le WIFI module => En Cours
 		- simuler la connection avec user et password => OK
-
+		- Chercher les musiques et afficher sur l'écran => OK
+	- Faire le Bluetooth module
+		- simuler la connection avec demande de connection => OK
+		- Il faut finir le run
 Conception
 	- Conception préliminaire => OK
 	- Use Case Diagram propre => OK

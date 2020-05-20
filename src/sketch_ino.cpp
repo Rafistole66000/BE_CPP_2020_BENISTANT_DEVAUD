@@ -25,17 +25,11 @@ void Board::loop(){
   static int bascule=0;
   int i=0;
   for(i=0;i<6;i++){
-      
-      if(connected){
-          strcpy(buf,"120");
-          bus.write(2,buf,100);
-      }
+ 
       
       if(digitalRead(4)==ON){//Bouton and LED
-          digitalWrite(3,HIGH);
-          
-          
-/*
+          //digitalWrite(3,HIGH);
+                  
           if(!connected){
             //Turns the WIFI on
             connection_request=1; //On libère la fonction connect de ActuatorI2CWifiModule qui est bloqué sur une boucle while infini
@@ -57,7 +51,7 @@ void Board::loop(){
             
             while(!connected){} //On attend que la connection wifi soit pleinement établie
           }
-*/
+          
           if(!connected_bluetooth){
             //Turns the BLuetooth on
             connection_request_bluetooth=1; //On libère la fonction connect de ActuatorUARTBLuetoothModule qui est bloqué sur une boucle while infini
@@ -65,21 +59,22 @@ void Board::loop(){
             while(!connected_bluetooth){} //On attend que la connection bluetooth soit pleinement établie
           }
       }
-      else{
-          digitalWrite(3,LOW);
-      }
  
-/*
+    if(cpt%10==0 && cpt!=0){
     puls=analogRead(5);       
     sprintf(buf,"pulsation %d",puls);
     Serial.println(buf);
     
-    if(cpt%3==0){
-      //testUART
-      sprintf(buf,"%d",puls);
-      bus_uart.write(1,buf,100);
     }
-*/
+      
+    if(connected){
+        strcpy(buf,"120");
+        bus.write(2,buf,100);
+        while(!answer_ok){}
+        answer_ok=0;
+        
+        //Ecrit ton code ici, la variable answer contient le nom de la musique pour la pulsation choisi
+    }
     
     if(cpt%10==0 && cpt!=0){
         //cout << "Pulsation changes";
@@ -89,6 +84,7 @@ void Board::loop(){
     cpt++;
     sleep(1);
   }
+  
 // on eteint et on allume la LED
   if(bascule)
     digitalWrite(0,HIGH);
