@@ -35,8 +35,23 @@ void I2CActuatorWifiModule::run(){
     
     istringstream iss;
     bool trouve=0;
-    
+    try{
     connect();
+    }
+    catch(ExceptionConnexion error){
+        switch(error.get_Error()){
+            case 0:
+                cout << "---screen : Utilisateur inconnu, connect fails" << endl;
+                exit(1);
+                break;
+            case 2:
+                cout << "---screen : Mot de passe incorrect, connect fails" << endl; 
+                break;
+            default:
+                break;
+        }
+        exit(1);
+    }
     
     while(!connected){}
   
@@ -154,18 +169,20 @@ void I2CActuatorWifiModule::connect(){
         sleep(2); //Simule le temps d'attente
 
         switch(trouve){
-            case 0:
-                cout << "---screen : Utilisateur inconnu, connect fails" << endl;
-                exit(1);
-                break;
             case 1:
                 cout << "---screen : Bienvenue " << my_user << endl << endl;
                 connected=1;
                 connection_request=0;
                 break;
             default:
-                cout << "---screen : Mot de passe incorrect, connect fails" << endl; 
-                exit(1);
+                throw(ExceptionConnexion(trouve));
         }
 }
-  
+
+I2CActuatorWifiModule::ExceptionConnexion::ExceptionConnexion(int& erreur){
+    this->error = erreur;
+}
+
+int I2CActuatorWifiModule::ExceptionConnexion::get_Error(){
+    return this->error;
+}

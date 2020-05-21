@@ -16,12 +16,13 @@
 
 #include "Common_includes.h"
 
+extern bool connection_request_bluetooth;
+extern bool connected_bluetooth; //Bluetooth is connected
+
+
 #ifdef __cplusplus
 extern "C" {
 #endif
-
-extern bool connection_request_bluetooth;
-extern bool connected_bluetooth; //Bluetooth is connected
 
 
 #ifdef __cplusplus
@@ -41,6 +42,10 @@ public:
   void connect();
   // thread representant le capteur et permettant de fonctionner independamment de la board
   virtual void run();
+  
+  class ExceptionConnexion{
+  };
+
 };
 
 #endif /* BLUETOOTH_MODULE_H */

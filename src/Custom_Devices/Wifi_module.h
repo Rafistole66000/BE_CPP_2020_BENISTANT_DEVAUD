@@ -47,6 +47,15 @@ public:
   void connect();
   // thread representant le capteur et permettant de fonctionner independamment de la board
   virtual void run();
+  
+  class ExceptionConnexion{
+  private:
+      int error;
+  public:
+      ExceptionConnexion(int& erreur);
+      int get_Error();
+  };
+  
 };
 
 #endif /* WIFI_MODULE_H */

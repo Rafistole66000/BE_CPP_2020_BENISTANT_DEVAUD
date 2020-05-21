@@ -25,9 +25,14 @@ UARTActuatorBluetoothModule::UARTActuatorBluetoothModule():Device(){
   }
 
 void UARTActuatorBluetoothModule::run(){
-    
-    connect();
-    
+    try{
+        connect();
+    }
+    catch(ExceptionConnexion){
+        cout << "---screen : Le choix n'est pas dans la liste!" << endl;
+        exit(1);
+    }
+            
     while(!connected_bluetooth){}
   
     while(1){
@@ -73,6 +78,10 @@ void UARTActuatorBluetoothModule::connect(){
             
             cin >> choix;
             
+            if(choix<0 || choix>=cpt){ //l'utilisateur a fait un mauvais choix
+                throw ExceptionConnexion();
+            }
+            else{    
             cout << "Connection à " << choix << endl;
             
             sleep(1);
@@ -80,12 +89,13 @@ void UARTActuatorBluetoothModule::connect(){
             connected_bluetooth = 1;
             
             cout << "Bluetooth connecté" << endl << endl;
+            }
             
           }
-          else
-          {
-              cout << "Erreur : Impossible d'ouvrir le fichier." << endl;
-          }
+        else
+        {
+            cout << "Erreur : Impossible d'ouvrir le fichier." << endl;
+        }
 
         sleep(2); //Simule le temps d'attente
 }
