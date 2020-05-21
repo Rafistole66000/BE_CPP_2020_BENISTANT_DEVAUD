@@ -25,7 +25,7 @@ I2CActuatorWifiModule::I2CActuatorWifiModule():Device(){
   }
 
 void I2CActuatorWifiModule::run(){
-    ifstream fichier_spotify(Donnees_Spotify); //crée une flux de lecture sur le fichier Donnees_Spotify
+    ifstream fichier_spotify; //crée une flux de lecture sur le fichier Donnees_Spotify
     string ligne; //Permettra de stocker ce qu'on va lire
     char my_bpm[I2C_BUFFER_SIZE]; //On y va stocker ce qu'on va lire sur le buffer
     string bpm; //on y va stocker ce qu'on va lire du fichier 
@@ -47,6 +47,8 @@ void I2CActuatorWifiModule::run(){
           strcpy(my_bpm,buf);
           //cout << "---WIFI MODULE: "<< buf << endl;
           
+          fichier_spotify.open(Donnees_Spotify);
+          
           if(fichier_spotify){ // On teste si tout est OK
             trouve=0;  
             while(getline(fichier_spotify,ligne) && !trouve){//Des qu'on a trouve une chanson dans le fichier on s'arrete
@@ -66,8 +68,13 @@ void I2CActuatorWifiModule::run(){
                     cout << "---screen : une chanson à " << my_bpm << "bpm est " << answer << endl;
                 }
                 iss.clear();
-            }             
+            }
+            if(!trouve){
+                cout << "---screen: Il n'y a pas de chanson à ces BPM " << endl;                
+            }
           }
+          
+          fichier_spotify.close();
       
         } 
         sleep(1);
@@ -152,7 +159,7 @@ void I2CActuatorWifiModule::connect(){
                 exit(1);
                 break;
             case 1:
-                cout << "---screen : Bienvenue " << my_user << endl;
+                cout << "---screen : Bienvenue " << my_user << endl << endl;
                 connected=1;
                 connection_request=0;
                 break;

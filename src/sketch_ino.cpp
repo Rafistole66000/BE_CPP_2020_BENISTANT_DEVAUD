@@ -21,6 +21,7 @@ void Board::loop(){
   //int val;
   //int lum;
   int puls;
+  float mean_pulse;
   static int cpt=0;
   static int bascule=0;
   int i=0;
@@ -60,15 +61,23 @@ void Board::loop(){
           }
       }
  
-    if(cpt%10==0 && cpt!=0){
-    puls=analogRead(5);       
-    sprintf(buf,"pulsation %d",puls);
-    Serial.println(buf);
-    
-    }
+      mean_pulse = 0;
+      
+      for(int i=0; i<10; i++){
+            puls=analogRead(5);       
+            //sprintf(buf,"pulsation %d",puls);
+            mean_pulse+=puls;
+            //Serial.println(buf);
+      }
+      
+      mean_pulse = mean_pulse/10.0;
       
     if(connected){
-        strcpy(buf,"120");
+        mean_pulse += 5;
+        mean_pulse = (int)mean_pulse/10 * 10; //Arrondi de la valeur de pulsation
+        sprintf(buf,"Envoi d'un requête de musique à %dbpm",(int)mean_pulse);
+        Serial.println(buf);
+        sprintf(buf,"%d",(int)mean_pulse);
         bus.write(2,buf,100);
         while(!answer_ok){}
         answer_ok=0;

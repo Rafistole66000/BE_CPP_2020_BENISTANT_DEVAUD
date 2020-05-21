@@ -79,7 +79,7 @@ void UARTActuatorBluetoothModule::connect(){
             
             connected_bluetooth = 1;
             
-            cout << "Bluetooth connecté" << endl;
+            cout << "Bluetooth connecté" << endl << endl;
             
           }
           else
