@@ -10,6 +10,7 @@
 #include "Custom_Devices/pulse_sensor.h"
 #include "Custom_Devices/Wifi_module.h"
 #include "Custom_Devices/Bluetooth_module.h"
+#include "Custom_Devices/Bibliotheque.h"
 
 extern int luminosite_environnement;
 

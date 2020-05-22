@@ -15,7 +15,7 @@
 #define BLUETOOTH_MODULE_H
 
 #include "Common_includes.h"
-
+#include "Bibliotheque.h"
 extern bool connection_request_bluetooth;
 extern bool connected_bluetooth; //Bluetooth is connected
 
@@ -45,6 +45,8 @@ public:
   
   class ExceptionConnexion{
   };
+  
+  friend class Bibliotheque ;
 
 };
 

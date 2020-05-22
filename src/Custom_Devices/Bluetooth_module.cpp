@@ -12,6 +12,8 @@
  */
 
 #include "Bluetooth_module.h"
+#include "Wifi_module.h"
+#include "Bibliotheque.h"
 
 using namespace std;
 
@@ -20,7 +22,9 @@ bool connected_bluetooth=0;
 
 string const Nom_fichier_Bluetooth="Bluetooth_Devices.txt";
 
-// classe I2CActuatorScreen
+
+
+// classe UARTActuatorScreen
 UARTActuatorBluetoothModule::UARTActuatorBluetoothModule():Device(){
   }
 
@@ -34,14 +38,25 @@ void UARTActuatorBluetoothModule::run(){
     }
             
     while(!connected_bluetooth){}
-  
+    
+    Bibliotheque MaBiblio=Bibliotheque() ; 
+    string musique_a_envoyer ;
     while(1){
-        
+        //if (1){
         if ( (UARTbus!=NULL)&&!(UARTbus->isEmptyRegister(UARTaddr))){
           Device::UARTbus->requestFrom(UARTaddr, buf, UART_BUFFER_SIZE);
-          cout << "---BLUETOOTH MODULE: "<< buf << endl;
+          cout << "---BLUETOOTH MODULE: "<< endl;
           
-          //Ici les données sont recue par le module c'est la que tu dois les gérer genre afficher "J'ai bien recu, j'envoie au casque" ou quoi
+          //Ici les données sont recues par le module c'est la que tu dois les gérer genre afficher "J'ai bien recu, j'envoie au casque" ou quoi
+          // étape 1 : vérification de la réception du nom de la chanson via la requête 
+          cout << "J'ai bien reçu la réponse : " << buf << endl; 
+          musique_a_envoyer=MaBiblio.RechercherMusique(buf);
+          cout << "J'ai trouvé : " << musique_a_envoyer<< " dans la bibliothèque " ;
+          cout << endl; 
+          
+          cout << "J'envoie au device audio la musique : " << musique_a_envoyer  ;
+          cout  <<endl ;
+          
       
         } 
         sleep(1);
@@ -78,7 +93,7 @@ void UARTActuatorBluetoothModule::connect(){
             
             cin >> choix;
             
-            if(choix<0 || choix>=cpt){ //l'utilisateur a fait un mauvais choix
+            if(choix<0 || choix>=cpt || !(cin>>choix)){ //l'utilisateur a fait un mauvais choix
                 throw ExceptionConnexion();
             }
             else{    

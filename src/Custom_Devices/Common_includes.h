@@ -23,6 +23,7 @@
 #include <fstream>
 #include <cmath>
 #include <sstream>
+#include <map>
 
 #ifdef __cplusplus
 extern "C" {

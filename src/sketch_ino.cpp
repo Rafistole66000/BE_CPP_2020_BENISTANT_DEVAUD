@@ -1,7 +1,7 @@
 #include <unistd.h>
 #include "core_simulation.h"
 #include "mydevices.h"
-
+#include "Custom_Devices/Bibliotheque.h"
 // la fonction d'initialisation d'arduino
 void Board::setup(){
   // on configure la vitesse de la liaison
@@ -75,14 +75,19 @@ void Board::loop(){
     if(connected){
         mean_pulse += 5;
         mean_pulse = (int)mean_pulse/10 * 10; //Arrondi de la valeur de pulsation
-        sprintf(buf,"Envoi d'un requête de musique à %dbpm",(int)mean_pulse);
+        sprintf(buf,"Envoi d'un requête de musique à %d bpm",(int)mean_pulse);
         Serial.println(buf);
         sprintf(buf,"%d",(int)mean_pulse);
         bus.write(2,buf,100);
         while(!answer_ok){}
         answer_ok=0;
         
-        //Ecrit ton code ici, la variable answer contient le nom de la musique pour la pulsation choisi
+        //Ecrit ton code ici, la variable answer contient le nom de la musique pour la pulsation choisie
+        
+        bus_uart.write(1,answer,100); 
+         
+         
+        
     }
     
     if(cpt%10==0 && cpt!=0){
