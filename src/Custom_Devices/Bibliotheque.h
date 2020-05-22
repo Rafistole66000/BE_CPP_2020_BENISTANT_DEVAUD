@@ -24,7 +24,7 @@ protected:
 public:
     Bibliotheque();
     
-    string RechercherMusique(string musique);
+    string RechercherMusique(char musique[UART_BUFFER_SIZE],char bpm[UART_BUFFER_SIZE] );
     virtual ~Bibliotheque();
     
     class Exception_biblio{

@@ -20,10 +20,15 @@ using namespace std;
 bool connection_request_bluetooth=0; //Used the first time to connect Bluetooth
 bool connected_bluetooth=0;
 
+bool trigger_get_song=0; 
+bool trigger_get_bpm=0;
 
 
 string const Nom_fichier_Bluetooth="Bluetooth_Devices.txt";
-
+Bibliotheque MaBiblio=Bibliotheque() ; 
+string musique_a_envoyer;
+char musique_recue[UART_BUFFER_SIZE] ;
+char BPM[UART_BUFFER_SIZE] ;
 
 
 // classe UARTActuatorScreen
@@ -41,33 +46,38 @@ void UARTActuatorBluetoothModule::run(){
             
     while(!connected_bluetooth){}
     
-    Bibliotheque MaBiblio=Bibliotheque() ; 
-    string musique_a_envoyer ;
-    string musique_recue ;
-    string BPM ;
+  
+    
     while(1){
-        //if (1){
+        //cout << "---BLUETOOTH MODULE: "<< endl;
         try{
+        while(!trigger_get_song){}
         if ( (UARTbus!=NULL)&&!(UARTbus->isEmptyRegister(UARTaddr))){
           Device::UARTbus->requestFrom(UARTaddr, buf, UART_BUFFER_SIZE);
-          cout << "---BLUETOOTH MODULE: "<< endl;
-          musique_recue = buf ;
+          strcpy(musique_recue,buf) ;
+          trigger_get_song=0;
+        }
+        
+        while(!trigger_get_bpm){}
+        if ( (UARTbus!=NULL)&&!(UARTbus->isEmptyRegister(UARTaddr))){
+          Device::UARTbus->requestFrom(UARTaddr, buf, UART_BUFFER_SIZE);
+          strcpy(BPM,buf) ;
+          trigger_get_bpm=0;
+        }
+        
           // étape 1 : vérification de la réception du nom de la chanson via la requête 
-          cout << "J'ai bien reçu la réponse : " << musique_recue << endl; 
-          
-          cout << "Le nombre de BPM de la réponse est : "<< BPM << endl; 
+          cout << "---screen :J'ai bien reçu la réponse : " << musique_recue << endl; 
+          cout << "---screen :Le nombre de BPM de la réponse est : "<< BPM << endl; 
           //étape 2 : vérification si la musique est enregistrée dans la bibliothèque 
-          musique_a_envoyer=MaBiblio.RechercherMusique(musique_recue);
-          cout << "J'ai trouvé : " << musique_a_envoyer<< " dans la bibliothèque " ;
-          cout << endl; 
-          
+          musique_a_envoyer=MaBiblio.RechercherMusique(musique_recue,BPM);
+          cout << "---screen :J'ai trouvé  dans la bibliothèque : "  << musique_a_envoyer<< endl ;
           //étape 3 : J'envoie la musique pour l'audio device la diffuse
-          cout << "J'envoie au device audio la musique : " << musique_a_envoyer  ;
-          cout  <<endl ;
+          cout << "---screen :J'envoie au device audio la musique : " << musique_a_envoyer << endl ;
+          
           
       
         }
-        }// je gère les exceptions liées à l'utilisation de la bibliothèque
+        // je gère les exceptions liées à l'utilisation de la bibliothèque
         catch(Bibliotheque ::Exception_biblio e){
             cout << e.getException_biblio()<< endl; 
              

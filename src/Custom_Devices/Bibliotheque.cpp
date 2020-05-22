@@ -19,7 +19,7 @@ using namespace std;
 Bibliotheque::Bibliotheque() {
    
     //maBibliotheque["K-Maro-Femme Like U"]="130;
-    maBibliotheque["Pascal Obispo-Tombe pour elle"]="120"; 
+    //maBibliotheque["Pascal Obispo-Tombe pour elle"]="120"; 
     //maBibliotheque ["Marc Lavoine-Elle a les yeux revolver"]="80";
     myit=maBibliotheque.begin();
 }
@@ -34,23 +34,32 @@ string Bibliotheque :: Exception_biblio :: getException_biblio(){
 
 // Fonction qui recherche si la musique reçue est déjà dans la bibliothèque 
 
-string Bibliotheque :: RechercherMusique (string musique){
-    
+string Bibliotheque :: RechercherMusique (char musique[UART_BUFFER_SIZE],char bpm[UART_BUFFER_SIZE]){
+    string Resultat ; 
+    //Si la bibliothèque est vide j'ajoute la musique directement
     if (maBibliotheque.begin()==maBibliotheque.end()){
-        throw Exception_biblio("La bibliothèque est vide"); 
+        maBibliotheque[musique]=bpm; 
+        myit=maBibliotheque.begin(); 
+        cout << "---screen : Ajout de la musique à la bibliothèque : " << myit->first<< endl; 
+        Resultat = myit->first; 
     }
-    
+    // Vérification si la musique est dans la bibliothèque
     while ((myit->first != musique) && (myit!=maBibliotheque.end())){
      myit ++ ; 
      
     }
+    Resultat = myit->first;
+    // Si elle n'y est pas après le parcours , je l'ajoute 
     if (myit==maBibliotheque.end() && (myit->first != musique)){
-         throw Exception_biblio("La musique n'est pas dans la bibliothèque"); 
+        maBibliotheque[musique]=bpm;  
+        myit=maBibliotheque.end(); 
+        cout << "---screen : Ajout de la musique à la bibliothèque : " << myit->first<<endl; 
+        Resultat = myit->first; 
       
         
     }
    
-    return (myit->first);
+    return (Resultat);
 }
 
 //Destructeur
