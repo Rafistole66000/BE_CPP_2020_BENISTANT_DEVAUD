@@ -83,9 +83,9 @@ void Board::loop(){
         answer_ok=0;
         
         //Ecrit ton code ici, la variable answer contient le nom de la musique pour la pulsation choisie
+        sprintf(buf,"%s/%d",answer,(int)mean_pulse);
+        bus_uart.write(1,buf,100); 
         
-        bus_uart.write(1,answer,100); 
-         
          
         
     }

@@ -17,14 +17,22 @@
 
 class Bibliotheque {
 protected: 
-    map <string,int> maBibliotheque ; 
-    map <string,int> :: iterator myit ; 
+    map <string,string> maBibliotheque ; 
+    map <string,string> :: iterator myit ; 
+    
     
 public:
     Bibliotheque();
+    
     string RechercherMusique(string musique);
     virtual ~Bibliotheque();
     
+    class Exception_biblio{
+    public :
+     string code;
+     Exception_biblio(string ch);
+     string getException_biblio();
+    };
      
      
 

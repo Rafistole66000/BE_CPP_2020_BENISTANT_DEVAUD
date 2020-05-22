@@ -20,6 +20,8 @@ using namespace std;
 bool connection_request_bluetooth=0; //Used the first time to connect Bluetooth
 bool connected_bluetooth=0;
 
+
+
 string const Nom_fichier_Bluetooth="Bluetooth_Devices.txt";
 
 
@@ -41,24 +43,35 @@ void UARTActuatorBluetoothModule::run(){
     
     Bibliotheque MaBiblio=Bibliotheque() ; 
     string musique_a_envoyer ;
+    string musique_recue ;
+    string BPM ;
     while(1){
         //if (1){
+        try{
         if ( (UARTbus!=NULL)&&!(UARTbus->isEmptyRegister(UARTaddr))){
           Device::UARTbus->requestFrom(UARTaddr, buf, UART_BUFFER_SIZE);
           cout << "---BLUETOOTH MODULE: "<< endl;
-          
-          //Ici les données sont recues par le module c'est la que tu dois les gérer genre afficher "J'ai bien recu, j'envoie au casque" ou quoi
+          musique_recue = buf ;
           // étape 1 : vérification de la réception du nom de la chanson via la requête 
-          cout << "J'ai bien reçu la réponse : " << buf << endl; 
-          musique_a_envoyer=MaBiblio.RechercherMusique(buf);
+          cout << "J'ai bien reçu la réponse : " << musique_recue << endl; 
+          
+          cout << "Le nombre de BPM de la réponse est : "<< BPM << endl; 
+          //étape 2 : vérification si la musique est enregistrée dans la bibliothèque 
+          musique_a_envoyer=MaBiblio.RechercherMusique(musique_recue);
           cout << "J'ai trouvé : " << musique_a_envoyer<< " dans la bibliothèque " ;
           cout << endl; 
           
+          //étape 3 : J'envoie la musique pour l'audio device la diffuse
           cout << "J'envoie au device audio la musique : " << musique_a_envoyer  ;
           cout  <<endl ;
           
       
-        } 
+        }
+        }// je gère les exceptions liées à l'utilisation de la bibliothèque
+        catch(Bibliotheque ::Exception_biblio e){
+            cout << e.getException_biblio()<< endl; 
+             
+        }
         sleep(1);
         }
 }
@@ -93,7 +106,7 @@ void UARTActuatorBluetoothModule::connect(){
             
             cin >> choix;
             
-            if(choix<0 || choix>=cpt || !(cin>>choix)){ //l'utilisateur a fait un mauvais choix
+            if(choix<0 || choix>=cpt || !(choix)){ //l'utilisateur a fait un mauvais choix
                 throw ExceptionConnexion();
             }
             else{    
