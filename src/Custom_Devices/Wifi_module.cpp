@@ -20,7 +20,7 @@ bool answer_ok=0;
 string const Nom_fichier_Spotify="Internet_Spotify.txt";
 string const Donnees_Spotify="Donnees_Spotify.txt";
 char answer[I2C_BUFFER_SIZE];
-string music_values[10];
+char music_values[10][I2C_BUFFER_SIZE];
 
 // classe I2CActuatorScreen
 I2CActuatorWifiModule::I2CActuatorWifiModule():Device(){
@@ -32,9 +32,11 @@ void I2CActuatorWifiModule::run(){
     char my_bpm[I2C_BUFFER_SIZE]; //On y va stocker ce qu'on va lire sur le buffer
     string bpm; //on y va stocker ce qu'on va lire du fichier 
     string song;
+    string values[10];
     //string values[10];
     
     int i;//loop1
+    int j;//loop2
     
     istringstream iss;
     bool trouve=0;
@@ -74,23 +76,32 @@ void I2CActuatorWifiModule::run(){
                 getline(iss, bpm, ':');
                 getline(iss, song, ':');
                 
+                for(i = 0; song[i] != '\0'; i++)
+                    answer[i] = song[i];
+                
+                answer[i]='\0';
+                
+                for(i=0; i<9; i++){
+                    getline(iss, values[i], ',');
+                }
+
+                getline(iss, values[i], '\n');
+                
 
                 if(my_bpm==bpm){
                     trouve=1;
                     
-                    //
+                    //Recopie le nom de la musique dans la variable partagée
                     for(i = 0; song[i] != '\0'; i++)
                         answer[i] = song[i];
                     answer[i]='\0';
-                
-                    for(i=0; i<9; i++){
-                        getline(iss, music_values[i], ',');
+                    
+                    for(i=0; i<10; i++){
+                        for(j = 0; values[i][j] != '\0'; j++)
+                            music_values[i][j] = values[i][j];
+     
+                        music_values[i][j]='\0';
                     }
-
-                    getline(iss, music_values[i], '\n');
-                    
-                    cout << "Note: " << music_values[i] << endl;
-                    
                     
                     answer_ok=1;
                     cout << "---screen : une chanson à " << my_bpm << "bpm est " << answer << endl;
