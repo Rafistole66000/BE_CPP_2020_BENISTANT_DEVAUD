@@ -1,5 +1,5 @@
 CC=g++
-CXXFLAGS=-Wall -std=c++11 -pthread
+CXXFLAGS=-Wall -std=c++11 -pthread -Wextra -Werror
 
 TARGET=arduino
 SOURCES=board.cpp core_simulation.cpp mydevices.cpp sketch_ino.cpp ./Custom_Devices/pulse_sensor.cpp ./Custom_Devices/Wifi_module.cpp ./Custom_Devices/Bluetooth_module.cpp ./Custom_Devices/Bibliotheque.cpp

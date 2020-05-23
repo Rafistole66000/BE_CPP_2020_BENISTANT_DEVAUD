@@ -7,6 +7,8 @@
         <in>Bibliotheque.h</in>
         <in>Bluetooth_module.cpp</in>
         <in>Bluetooth_module.h</in>
+        <in>Board_Manager.cpp</in>
+        <in>Board_Manager.h</in>
         <in>Common_includes.h</in>
         <in>Wifi_module.cpp</in>
         <in>Wifi_module.h</in>
