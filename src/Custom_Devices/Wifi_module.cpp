@@ -5,6 +5,7 @@
  */
 
 #include "Wifi_module.h"
+#include <typeinfo>
 
 using namespace std;
 
@@ -19,6 +20,7 @@ bool answer_ok=0;
 string const Nom_fichier_Spotify="Internet_Spotify.txt";
 string const Donnees_Spotify="Donnees_Spotify.txt";
 char answer[I2C_BUFFER_SIZE];
+string music_values[10];
 
 // classe I2CActuatorScreen
 I2CActuatorWifiModule::I2CActuatorWifiModule():Device(){
@@ -30,8 +32,9 @@ void I2CActuatorWifiModule::run(){
     char my_bpm[I2C_BUFFER_SIZE]; //On y va stocker ce qu'on va lire sur le buffer
     string bpm; //on y va stocker ce qu'on va lire du fichier 
     string song;
+    //string values[10];
     
-    int i;//loop
+    int i;//loop1
     
     istringstream iss;
     bool trouve=0;
@@ -69,18 +72,31 @@ void I2CActuatorWifiModule::run(){
             while(getline(fichier_spotify,ligne) && !trouve){//Des qu'on a trouve une chanson dans le fichier on s'arrete
                 iss.str(ligne);
                 getline(iss, bpm, ':');
-                getline(iss, song, '\n');
+                getline(iss, song, ':');
+                
 
                 if(my_bpm==bpm){
                     trouve=1;
                     
+                    //
                     for(i = 0; song[i] != '\0'; i++)
                         answer[i] = song[i];
                     answer[i]='\0';
+                
+                    for(i=0; i<9; i++){
+                        getline(iss, music_values[i], ',');
+                    }
+
+                    getline(iss, music_values[i], '\n');
+                    
+                    cout << "Note: " << music_values[i] << endl;
                     
                     
                     answer_ok=1;
                     cout << "---screen : une chanson à " << my_bpm << "bpm est " << answer << endl;
+                    
+                    
+                    
                 }
                 iss.clear();
             }

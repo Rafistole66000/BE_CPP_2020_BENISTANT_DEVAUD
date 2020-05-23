@@ -18,6 +18,8 @@
       <df name="Objects">
       </df>
       <in>board.cpp</in>
+      <in>board_manager.cpp</in>
+      <in>board_manager.h</in>
       <in>core_simulation.cpp</in>
       <in>core_simulation.h</in>
       <in>mydevices.cpp</in>
@@ -30,7 +32,7 @@
     <conf name="Default" type="0">
       <toolsSet>
         <developmentServer>localhost</developmentServer>
-        <platform>4</platform>
+        <platform>2</platform>
       </toolsSet>
       <compile>
         <compiledirpicklist>

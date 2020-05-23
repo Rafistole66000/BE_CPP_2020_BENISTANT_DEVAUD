@@ -24,7 +24,8 @@ extern bool trigger_get_password; //Used the first time to connect Wifi
 extern bool connected; //WIFI is connected
 
 extern bool answer_ok; //it means we can read the answer given by Spotify
-extern char answer[I2C_BUFFER_SIZE]; //This global variable stores the name of the music SPotify sends back
+extern char answer[I2C_BUFFER_SIZE]; //This global variable stores the name of the music Spotify sends back
+extern string music_values[10]; 
 
 #ifdef __cplusplus
 extern "C" {

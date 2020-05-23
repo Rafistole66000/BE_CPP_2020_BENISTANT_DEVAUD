@@ -4,14 +4,13 @@
     <df root="." name="0">
       <df name="Custom_Devices">
         <in>Bibliotheque.cpp</in>
-        <in>Bibliotheque.h</in>
         <in>Bluetooth_module.cpp</in>
         <in>Board_Manager.cpp</in>
-        <in>Board_Manager.h</in>
         <in>Wifi_module.cpp</in>
         <in>pulse_sensor.cpp</in>
       </df>
       <in>board.cpp</in>
+      <in>board_manager.cpp</in>
       <in>core_simulation.cpp</in>
       <in>mydevices.cpp</in>
       <in>sketch_ino.cpp</in>
@@ -38,6 +37,7 @@
       </toolsSet>
       <flagsDictionary>
         <element flagsID="0" commonFlags="-std=c++11"/>
+        <element flagsID="1" commonFlags="-std=c++14"/>
       </flagsDictionary>
       <codeAssistance>
       </codeAssistance>
@@ -53,9 +53,9 @@
           <preBuildCommand></preBuildCommand>
         </preBuild>
       </makefileType>
-      <item path="Custom_Devices/Bibliotheque.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="Custom_Devices/Bibliotheque.h" ex="false" tool="3" flavor2="0">
+      <item path="Custom_Devices/Bibliotheque.cpp" ex="false" tool="1" flavor2="11">
+        <ccTool flags="1">
+        </ccTool>
       </item>
       <item path="Custom_Devices/Bluetooth_module.cpp"
             ex="false"
@@ -64,9 +64,7 @@
         <ccTool flags="0">
         </ccTool>
       </item>
-      <item path="Custom_Devices/Board_Manager.cpp" ex="false" tool="0" flavor2="0">
-      </item>
-      <item path="Custom_Devices/Board_Manager.h" ex="false" tool="3" flavor2="0">
+      <item path="Custom_Devices/Board_Manager.cpp" ex="false" tool="0" flavor2="2">
       </item>
       <item path="Custom_Devices/Wifi_module.cpp" ex="false" tool="1" flavor2="8">
         <ccTool flags="0">
@@ -77,6 +75,10 @@
         </ccTool>
       </item>
       <item path="board.cpp" ex="false" tool="1" flavor2="8">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="board_manager.cpp" ex="false" tool="1" flavor2="8">
         <ccTool flags="0">
         </ccTool>
       </item>
