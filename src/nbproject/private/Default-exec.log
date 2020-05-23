@@ -4,6 +4,8 @@ called: /usr/bin/g++
 	-Wall
 	-std=c++11
 	-pthread
+	-Wextra
+	-Werror
 	-o
 	Objects/board.o
 	-c
@@ -15,6 +17,8 @@ called: /usr/bin/g++
 	-Wall
 	-std=c++11
 	-pthread
+	-Wextra
+	-Werror
 	-o
 	Objects/core_simulation.o
 	-c
@@ -26,6 +30,8 @@ called: /usr/bin/g++
 	-Wall
 	-std=c++11
 	-pthread
+	-Wextra
+	-Werror
 	-o
 	Objects/mydevices.o
 	-c
@@ -37,6 +43,21 @@ called: /usr/bin/g++
 	-Wall
 	-std=c++11
 	-pthread
+	-Wextra
+	-Werror
+	-o
+	Objects/board_manager.o
+	-c
+	board_manager.cpp
+
+called: /usr/bin/g++
+	/Users/emmadevaud/Desktop/C++/BE_C++/TEST/BE_CPP_2020_BENISTANT_DEVAUD/src
+	/usr/bin/g++
+	-Wall
+	-std=c++11
+	-pthread
+	-Wextra
+	-Werror
 	-o
 	Objects/sketch_ino.o
 	-c
@@ -48,6 +69,8 @@ called: /usr/bin/g++
 	-Wall
 	-std=c++11
 	-pthread
+	-Wextra
+	-Werror
 	-o
 	Objects/pulse_sensor.o
 	-c
@@ -59,6 +82,8 @@ called: /usr/bin/g++
 	-Wall
 	-std=c++11
 	-pthread
+	-Wextra
+	-Werror
 	-o
 	Objects/Wifi_module.o
 	-c
@@ -70,6 +95,8 @@ called: /usr/bin/g++
 	-Wall
 	-std=c++11
 	-pthread
+	-Wextra
+	-Werror
 	-o
 	Objects/Bluetooth_module.o
 	-c
@@ -81,13 +108,30 @@ called: /usr/bin/g++
 	-Wall
 	-std=c++11
 	-pthread
+	-Wextra
+	-Werror
+	-o
+	Objects/Bibliotheque.o
+	-c
+	Custom_Devices/Bibliotheque.cpp
+
+called: /usr/bin/g++
+	/Users/emmadevaud/Desktop/C++/BE_C++/TEST/BE_CPP_2020_BENISTANT_DEVAUD/src
+	/usr/bin/g++
+	-Wall
+	-std=c++11
+	-pthread
+	-Wextra
+	-Werror
 	-o
 	arduino
 	./Objects/board.o
 	./Objects/core_simulation.o
 	./Objects/mydevices.o
+	./Objects/board_manager.o
 	./Objects/sketch_ino.o
 	./Objects/pulse_sensor.o
 	./Objects/Wifi_module.o
 	./Objects/Bluetooth_module.o
+	./Objects/Bibliotheque.o
 

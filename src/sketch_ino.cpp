@@ -2,6 +2,7 @@
 
 Board_manager my_board_manager;
 bool devices_on=0;
+Bibliotheque MaBiblio = Bibliotheque() ;
 
 // la fonction d'initialisation d'arduino
 void Board::setup(){
@@ -51,22 +52,30 @@ void Board::loop(){
         bus.write(2,buf,100);
         while(!answer_ok){}
         answer_ok=0;
+        // Mise à jour de la bibliothèque en fonction de la réponse de spotify 
+        MaBiblio.MiseAJourBiblio(answer,mean_pulse,music_values);
         
-        //Ecrit ton code ici, la variable answer contient le nom de la musique pour la pulsation choisie
+        //Envoie du nom de la chanson au module bluetooth
+       
         sprintf(buf,"%s",answer);
         Serial.println(buf);
-        bus_uart.write(1,buf,100); 
-        trigger_get_song=1; 
-        while(trigger_get_song){}
+        //bus_uart.write(1,buf,100); 
+        //trigger_get_song=1; 
+        //while(trigger_get_song){}
+  
         
-        sprintf(buf,"%d",(int)mean_pulse);
-        bus_uart.write(1,buf,100); 
-        trigger_get_bpm=1; 
-        while(trigger_get_bpm){}
+        // La variable music_values contient les données de la musique, transmission au module bluetooth  
+        int i; 
+        for (i=0;i<10;i++){
+            sprintf(buf,"%s", music_values[i]);
+            bus_uart.write(1,buf,100); 
+            trigger_get_values =1;
+            while(trigger_get_values){}
+        }
             
     }
     
-    if(cpt%10==0 && cpt!=0){
+    if(cpt%5==0 && cpt!=0){
         //cout << "Pulsation changes";
         Time_Between_Two_Pulse=300;
     }
@@ -83,5 +92,3 @@ void Board::loop(){
   bascule=1-bascule;
   
 }
-
-

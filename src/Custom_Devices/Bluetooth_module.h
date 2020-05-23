@@ -18,8 +18,9 @@
 #include "Bibliotheque.h"
 extern bool connection_request_bluetooth;
 extern bool connected_bluetooth; //Bluetooth is connected
-extern bool trigger_get_song; 
-extern bool trigger_get_bpm;
+//extern bool trigger_get_song; 
+//extern bool trigger_get_bpm;
+extern bool trigger_get_values ; 
 
 #ifdef __cplusplus
 extern "C" {
@@ -52,4 +53,3 @@ public:
 };
 
 #endif /* BLUETOOTH_MODULE_H */
-

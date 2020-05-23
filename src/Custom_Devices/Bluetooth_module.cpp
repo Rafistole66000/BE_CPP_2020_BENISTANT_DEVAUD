@@ -20,15 +20,15 @@ using namespace std;
 bool connection_request_bluetooth=0; //Used the first time to connect Bluetooth
 bool connected_bluetooth=0;
 
-bool trigger_get_song=0; 
-bool trigger_get_bpm=0;
+
+bool trigger_get_values =0;
 
 
 string const Nom_fichier_Bluetooth="Bluetooth_Devices.txt";
-Bibliotheque MaBiblio=Bibliotheque() ; 
-string musique_a_envoyer;
-char musique_recue[UART_BUFFER_SIZE] ;
-char BPM[UART_BUFFER_SIZE] ;
+//Bibliotheque MaBiblio=Bibliotheque() ; 
+
+char  nom_musique_a_envoyer[UART_BUFFER_SIZE] ;
+char valeurs_musique_a_envoyer[10][UART_BUFFER_SIZE];
 
 
 // classe UARTActuatorScreen
@@ -49,39 +49,36 @@ void UARTActuatorBluetoothModule::run(){
   
     
     while(1){
-        //cout << "---BLUETOOTH MODULE: "<< endl;
-        try{
-        while(!trigger_get_song){}
-        if ( (UARTbus!=NULL)&&!(UARTbus->isEmptyRegister(UARTaddr))){
-          Device::UARTbus->requestFrom(UARTaddr, buf, UART_BUFFER_SIZE);
-          strcpy(musique_recue,buf) ;
-          trigger_get_song=0;
-        }
+       
         
-        while(!trigger_get_bpm){}
-        if ( (UARTbus!=NULL)&&!(UARTbus->isEmptyRegister(UARTaddr))){
-          Device::UARTbus->requestFrom(UARTaddr, buf, UART_BUFFER_SIZE);
-          strcpy(BPM,buf) ;
-          trigger_get_bpm=0;
-        }
         
-          // étape 1 : vérification de la réception du nom de la chanson via la requête 
-          cout << "---screen :J'ai bien reçu la réponse : " << musique_recue << endl; 
-          cout << "---screen :Le nombre de BPM de la réponse est : "<< BPM << endl; 
-          //étape 2 : vérification si la musique est enregistrée dans la bibliothèque 
-          musique_a_envoyer=MaBiblio.RechercherMusique(musique_recue,BPM);
-          cout << "---screen :J'ai trouvé  dans la bibliothèque : "  << musique_a_envoyer<< endl ;
-          //étape 3 : J'envoie la musique pour l'audio device la diffuse
-          cout << "---screen :J'envoie au device audio la musique : " << musique_a_envoyer << endl ;
-          
-          
+        
+        // Réception des données de la musique à envoyer au device audio 
+        int i ; 
+        cout << "---module bluetooth : J'ai bien reçu les données suivantes ";
+        for (i=0;i<10;i++){
+            while(!trigger_get_values){}
+                if ( (UARTbus!=NULL)&&!(UARTbus->isEmptyRegister(UARTaddr))){
+                    Device::UARTbus->requestFrom(UARTaddr, buf, UART_BUFFER_SIZE);
+                    strcpy(valeurs_musique_a_envoyer[i],buf) ;
+                    trigger_get_values=0;
+                    cout << valeurs_musique_a_envoyer[i]<< " "; 
+            } 
+        }
+        cout << endl; 
+        
+         //Envoie la musique pour que l'audio device la diffuse ensuite 
+        
+          cout << "---module bluetooth : Début de l'envoie au device audio de";
+          //cout << nom_musique_a_envoyer << endl ;
+        int j ; 
+        for (j=0;j<10;j++){
+          cout << valeurs_musique_a_envoyer[j] << " " ; 
+        }
+        cout << endl; 
+        cout << "---module bluetooth : Fin de l'envoie au device audio \n ";
       
-        }
-        // je gère les exceptions liées à l'utilisation de la bibliothèque
-        catch(Bibliotheque ::Exception_biblio e){
-            cout << e.getException_biblio()<< endl; 
-             
-        }
+       
         sleep(1);
         }
 }
@@ -137,4 +134,3 @@ void UARTActuatorBluetoothModule::connect(){
 
         sleep(2); //Simule le temps d'attente
 }
-

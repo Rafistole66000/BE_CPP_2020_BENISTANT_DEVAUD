@@ -15,16 +15,30 @@
 #ifndef BIBLIOTHEQUE_H
 #define BIBLIOTHEQUE_H
 
+
+class Musique {
+protected:
+    char valeurs[10][UART_BUFFER_SIZE];
+    int BPM ;
+    
+public : 
+    Musique(); 
+    void set_values(char val[10][UART_BUFFER_SIZE]);
+    void set_BPM (int bpm);
+    virtual ~Musique();
+};
+
+//--------------- Classe Bibliothèque -----------------
 class Bibliotheque {
 protected: 
-    map <string,string> maBibliotheque ; 
-    map <string,string> :: iterator myit ; 
+    map <string,Musique> maBibliotheque ; 
+    map <string,Musique> :: iterator myit ; 
     
     
 public:
     Bibliotheque();
     
-    string RechercherMusique(char musique[UART_BUFFER_SIZE],char bpm[UART_BUFFER_SIZE] );
+    void MiseAJourBiblio(char musique[UART_BUFFER_SIZE],int bpm, char val [10][UART_BUFFER_SIZE] );
     virtual ~Bibliotheque();
     
     class Exception_biblio{
