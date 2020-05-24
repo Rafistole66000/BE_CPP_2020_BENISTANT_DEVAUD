@@ -10,10 +10,11 @@
  *
  * Created on 22 mai 2020, 14:17
  */
-#include "Common_includes.h"
 
 #ifndef BIBLIOTHEQUE_H
 #define BIBLIOTHEQUE_H
+
+#include "Common_includes.h"
 
 
 class Musique {
@@ -26,14 +27,15 @@ public :
     void set_values(char val[10][UART_BUFFER_SIZE]);
     void set_BPM (int bpm);
     virtual ~Musique();
+    
+    friend ostream & operator<<(ostream &os, const Musique& ma_musique);
+    
 };
 
 //--------------- Classe Bibliothèque -----------------
 class Bibliotheque {
 protected: 
-    map <string,Musique> maBibliotheque ; 
-    map <string,Musique> :: iterator myit ; 
-    
+    map <string,Musique> maBibliotheque ;    
     
 public:
     Bibliotheque();

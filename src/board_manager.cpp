@@ -55,3 +55,26 @@ int Board_manager::compute_mean_pulse_10values(Board& ma_board){
     
     return (int)result;
 }
+
+void Board_manager::send_music_request(Board& ma_board, int mean_pulse){
+    
+    char buf[100];
+    
+    sprintf(buf,"Envoi d'un requête de musique à %d bpm",mean_pulse);
+    ma_board.Serial.println(buf);
+    sprintf(buf,"%d",mean_pulse);
+    ma_board.bus.write(2,buf,100);
+    while(!answer_ok){}
+    answer_ok=0;
+}
+
+void Board_manager::send_music_to_bluetooth_device(Board& ma_board){
+    char buf[100];
+    
+    for (int i=0;i<10;i++){
+        sprintf(buf,"%s", music_values[i]);
+        ma_board.bus_uart.write(1,buf,100); 
+        trigger_get_values =1;
+        while(trigger_get_values){}
+    }
+}

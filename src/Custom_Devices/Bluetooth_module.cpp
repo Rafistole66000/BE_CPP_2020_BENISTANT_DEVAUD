@@ -6,7 +6,7 @@
 
 /* 
  * File:   Bluetooth_module.cpp
- * Author: raphael
+ * Author: raphael/emma
  *
  * Created on May 20, 2020, 9:58 AM
  */
@@ -22,6 +22,7 @@ bool connected_bluetooth=0;
 
 
 bool trigger_get_values =0;
+bool send_music =0;
 
 
 string const Nom_fichier_Bluetooth="Bluetooth_Devices.txt";
@@ -49,13 +50,10 @@ void UARTActuatorBluetoothModule::run(){
   
     
     while(1){
-       
-        
-        
         
         // Réception des données de la musique à envoyer au device audio 
         int i ; 
-        cout << "---module bluetooth : J'ai bien reçu les données suivantes ";
+        cout << endl << "---module bluetooth : J'ai bien reçu les données suivantes ";
         for (i=0;i<10;i++){
             while(!trigger_get_values){}
                 if ( (UARTbus!=NULL)&&!(UARTbus->isEmptyRegister(UARTaddr))){
@@ -69,15 +67,14 @@ void UARTActuatorBluetoothModule::run(){
         
          //Envoie la musique pour que l'audio device la diffuse ensuite 
         
-          cout << "---module bluetooth : Début de l'envoie au device audio de";
+          cout << endl << "---module bluetooth : Début de l'envoie au device audio de ";
           //cout << nom_musique_a_envoyer << endl ;
         int j ; 
         for (j=0;j<10;j++){
           cout << valeurs_musique_a_envoyer[j] << " " ; 
-        }
-        cout << endl; 
-        cout << "---module bluetooth : Fin de l'envoie au device audio \n ";
-      
+        } 
+        cout << endl << "---module bluetooth : Fin de l'envoie au device audio \n ";
+        send_music=0;
        
         sleep(1);
         }

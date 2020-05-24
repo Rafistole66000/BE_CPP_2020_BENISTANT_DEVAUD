@@ -45,34 +45,23 @@ void Board::loop(){
       mean_pulse = my_board_manager.compute_mean_pulse_10values(*this);
       
     if(connected){
-
-        sprintf(buf,"Envoi d'un requête de musique à %d bpm",mean_pulse);
-        Serial.println(buf);
-        sprintf(buf,"%d",mean_pulse);
-        bus.write(2,buf,100);
-        while(!answer_ok){}
-        answer_ok=0;
-        // Mise à jour de la bibliothèque en fonction de la réponse de spotify 
-        MaBiblio.MiseAJourBiblio(answer,mean_pulse,music_values);
+        if(!send_music){
+            my_board_manager.send_music_request(*this, mean_pulse);
+            send_music=1;
         
-        //Envoie du nom de la chanson au module bluetooth
-       
-        sprintf(buf,"%s",answer);
-        Serial.println(buf);
-        //bus_uart.write(1,buf,100); 
-        //trigger_get_song=1; 
-        //while(trigger_get_song){}
-  
         
-        // La variable music_values contient les données de la musique, transmission au module bluetooth  
-        int i; 
-        for (i=0;i<10;i++){
-            sprintf(buf,"%s", music_values[i]);
-            bus_uart.write(1,buf,100); 
-            trigger_get_values =1;
-            while(trigger_get_values){}
-        }
+        
+            // Mise à jour de la bibliothèque en fonction de la réponse de spotify 
             
+            MaBiblio.MiseAJourBiblio(answer,mean_pulse,music_values); //SEGMENTATION FAULT LA !!!!!!!
+
+            //Affiche du nom de la chanson sur l'écran
+            sprintf(buf,"%s",answer);
+            Serial.println(buf);
+
+            // La variable music_values contient les données de la musique, transmission au module bluetooth  
+            my_board_manager.send_music_to_bluetooth_device(*this);
+        }           
     }
     
     if(cpt%5==0 && cpt!=0){

@@ -21,6 +21,7 @@ extern bool connected_bluetooth; //Bluetooth is connected
 //extern bool trigger_get_song; 
 //extern bool trigger_get_bpm;
 extern bool trigger_get_values ; 
+extern bool send_music;
 
 #ifdef __cplusplus
 extern "C" {

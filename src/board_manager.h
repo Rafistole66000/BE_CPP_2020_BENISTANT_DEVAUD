@@ -32,7 +32,8 @@ public:
     void connect_to_Internet(Board& ma_board);
     void connect_to_Bluetooth();
     int compute_mean_pulse_10values(Board& ma_board);
-    //void send_music_request
+    void send_music_request(Board& ma_board, int mean_pulse);
+    void send_music_to_bluetooth_device(Board& ma_board);
 };
 
 #endif /* BOARD_MANAGER_H */

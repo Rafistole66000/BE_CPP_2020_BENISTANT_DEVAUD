@@ -104,15 +104,13 @@ void I2CActuatorWifiModule::run(){
                     }
                     
                     answer_ok=1;
-                    cout << "---screen : une chanson à " << my_bpm << "bpm est " << answer << endl;
-                    
-                    
-                    
+                    cout << endl << "---screen : une chanson à " << my_bpm << "bpm est " << answer << endl;
+                                 
                 }
                 iss.clear();
             }
             if(!trouve){
-                cout << "---screen: Il n'y a pas de chanson à ces BPM " << endl;                
+                cout << endl << "---screen: Il n'y a pas de chanson à ces BPM " << endl;                
             }
           }
           

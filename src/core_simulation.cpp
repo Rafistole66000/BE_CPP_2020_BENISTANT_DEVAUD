@@ -29,7 +29,7 @@ void Terminal::begin(int speed){
   }
 }
 void Terminal::println(string s){
-  cout <<"Serial: "<< s<<endl;
+  cout << endl << "Serial: "<< s<<endl;
 }
 
 // representatoin du bus I2C

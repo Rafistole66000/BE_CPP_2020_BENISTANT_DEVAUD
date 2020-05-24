@@ -12,7 +12,6 @@
  */
 
 #include "Bibliotheque.h"
-#include "Common_includes.h"
 using namespace std;
 
 
@@ -48,6 +47,16 @@ void Musique :: set_BPM (int bpm){
     BPM=bpm ; 
 }
 
+//Redefinition de l'opérateur <<
+ostream & operator<<(ostream &os, const Musique& ma_musique){
+    os << "BPM: " << ma_musique.BPM << endl;
+    os << "Note: ";
+    for(int i=0; i<10; i++)
+        os << ma_musique.valeurs[i] << " ";
+    os << endl;
+    return os;
+}
+
 // ---------------------- Classe Bibliothèque ----------------------------
 // Constructeur 
 Bibliotheque::Bibliotheque() {
@@ -55,7 +64,6 @@ Bibliotheque::Bibliotheque() {
     //maBibliotheque["K-Maro-Femme Like U"]="130;
     //maBibliotheque["Pascal Obispo-Tombe pour elle"]="120"; 
     //maBibliotheque ["Marc Lavoine-Elle a les yeux revolver"]="80";
-    myit=maBibliotheque.begin();
 }
 
 Bibliotheque :: Exception_biblio :: Exception_biblio(string ch): code(ch){}
@@ -70,37 +78,37 @@ string Bibliotheque :: Exception_biblio :: getException_biblio(){
 
 void Bibliotheque :: MiseAJourBiblio(char musique[UART_BUFFER_SIZE],int bpm,char val[10][UART_BUFFER_SIZE]){
    
-    //Si la bibliothèque est vide j'ajoute la musique directement
-   
+    map <string,Musique>::iterator iter_biblio=maBibliotheque.begin();
+    
+    //Si la bibliothèque est vide j'ajoute la musique directement 
     if (maBibliotheque.begin()==maBibliotheque.end()){
         Musique maMusique=Musique() ;
         maMusique.set_values(val);
         maMusique.set_BPM(bpm);
         maBibliotheque[musique]=maMusique; 
-        myit=maBibliotheque.begin(); 
-        cout << "---screen : Ajout de la musique à la bibliothèque ->  " << myit->first<< endl; 
+        cout << "---screen : Ajout de la musique à la bibliothèque ->  " << musique << endl; 
+        cout << maMusique;
        
     }else{
+        
     // Vérification si la musique est dans la bibliothèque
-         while ((myit->first != musique) && (myit!=maBibliotheque.end())){
-            myit ++ ; 
-     
-        }
-        cout << "La musique est déjà dans la bibliothèque "<< endl ; 
-    // Si elle n'y est pas après le parcours , je l'ajoute 
-        if (myit==maBibliotheque.end() && (myit->first != musique)){
-            Musique maMusique=Musique() ;
-            maMusique.set_values(val);
-            maMusique.set_BPM(bpm);
-            maBibliotheque[musique]=maMusique;
-            myit=maBibliotheque.end(); 
-            cout << "---screen : Ajout de la musique à la bibliothèque -> " << myit->first<<endl; 
+         while ((iter_biblio->first != musique) && (iter_biblio!=maBibliotheque.end())){
+            iter_biblio++ ;     
         }
         
+         if(iter_biblio->first != musique) //Si elle y est
+            cout << "La musique est déjà dans la bibliothèque "<< endl ;
+         
+         else{ // Si elle n'y est pas après le parcours , je l'ajoute 
+                Musique maMusique=Musique() ;
+                maMusique.set_values(val);
+                maMusique.set_BPM(bpm);
+                maBibliotheque[musique]=maMusique;
+                cout << "---screen : Ajout de la musique à la bibliothèque ->  " << musique << endl; 
+                cout << maMusique;
+            }
+         }  
     }
-   
-    
-}
 
 //Destructeur
 Bibliotheque::~Bibliotheque() {
