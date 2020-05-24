@@ -60,7 +60,7 @@ void Board::loop(){
             Serial.println(buf);
 
             // La variable music_values contient les données de la musique, transmission au module bluetooth  
-            my_board_manager.send_music_to_bluetooth_device(*this);
+            my_board_manager.send_music_to_bluetooth_device(*this,MaBiblio,answer);
         }           
     }
     

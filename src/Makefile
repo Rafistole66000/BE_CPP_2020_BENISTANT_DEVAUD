@@ -20,7 +20,7 @@ $(TARGET): $(OBJECTS)
 ./Objects/mydevices.o: mydevices.cpp mydevices.h ./Custom_Devices/pulse_sensor.h ./Custom_Devices/Wifi_module.h ./Custom_Devices/Bluetooth_module.h ./Custom_Devices/Bibliotheque.h
 	$(CC) $(CXXFLAGS) -o $@ -c $<
 
-./Objects/board_manager.o: board_manager.cpp board_manager.h
+./Objects/board_manager.o: board_manager.cpp board_manager.h core_simulation.h
 	$(CC) $(CXXFLAGS) -o $@ -c $<
 
 ./Objects/pulse_sensor.o: ./Custom_Devices/pulse_sensor.cpp ./Custom_Devices/pulse_sensor.h

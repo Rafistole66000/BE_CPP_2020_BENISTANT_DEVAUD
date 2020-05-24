@@ -26,6 +26,8 @@ public :
     Musique(); 
     void set_values(char val[10][UART_BUFFER_SIZE]);
     void set_BPM (int bpm);
+    char* get_Note(int index);
+    
     virtual ~Musique();
     
     friend ostream & operator<<(ostream &os, const Musique& ma_musique);
@@ -41,6 +43,7 @@ public:
     Bibliotheque();
     
     void MiseAJourBiblio(char musique[UART_BUFFER_SIZE],int bpm, char val [10][UART_BUFFER_SIZE] );
+    Musique& get_Musique(char* index);
     virtual ~Bibliotheque();
     
     class Exception_biblio{

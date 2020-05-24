@@ -68,11 +68,11 @@ void Board_manager::send_music_request(Board& ma_board, int mean_pulse){
     answer_ok=0;
 }
 
-void Board_manager::send_music_to_bluetooth_device(Board& ma_board){
+void Board_manager::send_music_to_bluetooth_device(Board& ma_board,Bibliotheque& ma_biblio,char* music){
     char buf[100];
     
     for (int i=0;i<10;i++){
-        sprintf(buf,"%s", music_values[i]);
+        sprintf(buf,"%s", ma_biblio.get_Musique(music).get_Note(i));
         ma_board.bus_uart.write(1,buf,100); 
         trigger_get_values =1;
         while(trigger_get_values){}

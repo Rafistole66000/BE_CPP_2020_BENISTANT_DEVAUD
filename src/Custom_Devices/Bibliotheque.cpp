@@ -47,6 +47,10 @@ void Musique :: set_BPM (int bpm){
     BPM=bpm ; 
 }
 
+char* Musique::get_Note(int index){
+    return valeurs[index];
+}
+
 //Redefinition de l'opérateur <<
 ostream & operator<<(ostream &os, const Musique& ma_musique){
     os << "BPM: " << ma_musique.BPM << endl;
@@ -109,6 +113,10 @@ void Bibliotheque :: MiseAJourBiblio(char musique[UART_BUFFER_SIZE],int bpm,char
             }
          }  
     }
+
+Musique& Bibliotheque::get_Musique(char* index){
+    return maBibliotheque[index];
+}
 
 //Destructeur
 Bibliotheque::~Bibliotheque() {
