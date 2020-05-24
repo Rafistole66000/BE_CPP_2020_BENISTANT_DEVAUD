@@ -8,7 +8,7 @@ FICHIERS IMPORTANTS:
 	- src/Donnees_Spotify.txt : simule la base de données de musique de Spotify (bpm/nom/notes)
 	- src/Internet_Spotify.txt : simule la liste des couples user/password que Spotify connait
 	- src/Bluetooth_Device.txt : simule la liste des appareils bluetooth dans les environs
-	- src/on.txt : simule un bouton on (nous n'avons pas implémenté 
+	- src/on.txt : simule un bouton on (nous n'avons pas implémenté la fonction off)
 
 FONCTIONNEMENT:
 	
