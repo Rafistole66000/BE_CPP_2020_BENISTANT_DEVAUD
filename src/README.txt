@@ -1,13 +1,14 @@
 DOSSIER IMPORTANT:
 	- Custom_Devices : contient tous les modules créés pour implémenter notre fonction
+	- src : contient les éléments de base du projet et un board manager pour implémenter les fonctions intermédiaires nécessaires pour réaliser la fonction voulue
 
 FICHIERS IMPORTANTS:
 
 	- src/Makefile	
-	- src/Donnees_Spotify.txt : simule la base de données de musique de Spotify
+	- src/Donnees_Spotify.txt : simule la base de données de musique de Spotify (bpm/nom/notes)
 	- src/Internet_Spotify.txt : simule la liste des couples user/password que Spotify connait
 	- src/Bluetooth_Device.txt : simule la liste des appareils bluetooth dans les environs
-	- src/on.txt : simule un bouton on/off
+	- src/on.txt : simule un bouton on (nous n'avons pas implémenté 
 
 FONCTIONNEMENT:
 	
@@ -16,20 +17,21 @@ FONCTIONNEMENT:
 		string const user; => Le user du compte Spotify ex: "Juliette"
 		string const password; => Le user du compte Spotify ex: "mdp2"
 			/!\ ATTENTION /!\ Le couple user/password doit exister dans le fichier 
-			src/Internet_Spotify.txt sinon le programme ne pourra jamais continuer et précisera s'il s'agit d'un erreur de user ou de password
+			src/Internet_Spotify.txt sinon le programme ne pourra jamais continuer et 				précisera s'il s'agit d'un erreur de user ou de password
 	
 	2) Ces 3 données sont envoyés au module Wifi par le bus I2C et traitées
 	
-3) Le module Wifi simule la connexion au compte Spotify
+	3) Le module Wifi simule la connexion au compte Spotify
 
-4) Le module Bluetooth se connecte et rencence tous les appareils dans les environs
+	4) Le module Bluetooth se connecte et rencence tous les appareils dans les environs
 
-5) L'utilisateur doit faire un choix end tapant directement sa réponse sur le terminal: la réponse est le chiffre qui correspond à l'appareil auquel on veut se connecter
+	5) L'utilisateur doit faire un choix end tapant directement sa réponse sur le terminal: la réponse est le chiffre qui correspond à l'appareil auquel on veut se connecter
 
-6) Le pulse sensor mesure une pulsation et renvoie la valeur de celle-ci: Nous avons simulé une entrée analogique malgré que le vrai capteur envoie une PWM car simuler un système de gestion d'interruption sur front montant pour calculer la période nous aurait pris trop de temps. De ce fait, on a supposé que le capteur faisait lui-même le calcul de la pulsation et envoyait cette donnée analogique sur le pin d'entrée.
+	6) Le pulse sensor mesure une pulsation et renvoie la valeur de celle-ci: Nous avons simulé une entrée analogique malgré que le vrai capteur envoie une PWM car simuler un système de gestion d'interruption sur front montant pour calculer la période nous aurait pris trop de temps. De ce fait, on a supposé que le capteur faisait lui-même le calcul de la pulsation et envoyait cette donnée analogique sur le pin d'entrée.
 
-7) On soumet une requête de musique dont les BPM sont égaux à ceux de la pulsation de l'utilisateur
+	7) On soumet une requête de musique dont les BPM sont égaux à ceux de la pulsation de l'utilisateur
+			/!\ ATTENTION /!\ Une musique avec les BPM souhaités doit exister dans le 				fichier src/Donnees_Spotify.txt
 
-8) Notre processeur contient une liste de musiques en mémoire et sélectionne donc celle que Spotify lui a désigné
+	8) On récupère la musique et on stocke la stocke dans notre bibliothèque
 
-9) Les données sont envoyées au module bluetooth par le nouveau bus UART pour jouer la musique
+	9) Les données de la bibliothèque sont envoyées au module bluetooth sur le nouveau bus UART pour jouer la musique sur l'appareil bluetooth de type casque
