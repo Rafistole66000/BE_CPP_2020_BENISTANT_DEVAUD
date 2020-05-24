@@ -16,8 +16,7 @@ FONCTIONNEMENT:
 		string const url; => Doit être rempli avec l'url du site ex: "www.spotify.com"
 		string const user; => Le user du compte Spotify ex: "Juliette"
 		string const password; => Le user du compte Spotify ex: "mdp2"
-			/!\ ATTENTION /!\ Le couple user/password doit exister dans le fichier 
-			src/Internet_Spotify.txt sinon le programme ne pourra jamais continuer et 				précisera s'il s'agit d'un erreur de user ou de password
+			/!\ ATTENTION /!\ Le couple user/password doit exister dans le fichier src/Internet_Spotify.txt sinon le programme ne pourra jamais continuer et précisera s'il s'agit d'un erreur de user ou de password
 	
 	2) Ces 3 données sont envoyés au module Wifi par le bus I2C et traitées
 	
@@ -26,12 +25,13 @@ FONCTIONNEMENT:
 	4) Le module Bluetooth se connecte et rencence tous les appareils dans les environs
 
 	5) L'utilisateur doit faire un choix end tapant directement sa réponse sur le terminal: la réponse est le chiffre qui correspond à l'appareil auquel on veut se connecter
+		NB: Nous avons choisi de taper directement la réponse sur le terminal même si cela ne représente pas réellement un interaction avec du hardware car nous aurions dû implementer une classe Clavier héritant de Device qui aurait lu la réponse que l'on aurait écrite directement dans un fichier texte ou depuis le terminal. Cela n'avait pas de grand intérêt étant donné ce qui a déjà été fait avant
 
 	6) Le pulse sensor mesure une pulsation et renvoie la valeur de celle-ci: Nous avons simulé une entrée analogique malgré que le vrai capteur envoie une PWM car simuler un système de gestion d'interruption sur front montant pour calculer la période nous aurait pris trop de temps. De ce fait, on a supposé que le capteur faisait lui-même le calcul de la pulsation et envoyait cette donnée analogique sur le pin d'entrée.
 
-	7) On soumet une requête de musique dont les BPM sont égaux à ceux de la pulsation de l'utilisateur
-			/!\ ATTENTION /!\ Une musique avec les BPM souhaités doit exister dans le 				fichier src/Donnees_Spotify.txt
+	7) On soumet au module wifi une requête de musique dont les BPM sont égaux à ceux de la pulsation de l'utilisateur
+			/!\ ATTENTION /!\ Une musique avec les BPM souhaités doit exister dans le fichier src/Donnees_Spotify.txt
 
-	8) On récupère la musique et on stocke la stocke dans notre bibliothèque
+	8) On récupère la musique et on stocke la stocke dans notre bibliothèque si elle n'existe pas déjà
 
 	9) Les données de la bibliothèque sont envoyées au module bluetooth sur le nouveau bus UART pour jouer la musique sur l'appareil bluetooth de type casque
