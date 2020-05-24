@@ -64,7 +64,7 @@ void Board::loop(){
         }           
     }
     
-    if(cpt%5==0 && cpt!=0){
+    if(cpt%5==0 && cpt!=0){ //Passe la pulsation à 200 en moyenne au lieu de 120
         //cout << "Pulsation changes";
         Time_Between_Two_Pulse=300;
     }
