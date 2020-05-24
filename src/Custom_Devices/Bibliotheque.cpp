@@ -96,8 +96,8 @@ void Bibliotheque :: MiseAJourBiblio(char musique[UART_BUFFER_SIZE],int bpm,char
             iter_biblio++ ;     
         }
         
-         if(iter_biblio->first != musique) //Si elle y est
-            cout << "La musique est déjà dans la bibliothèque "<< endl ;
+        if(iter_biblio->first == musique) //Si elle y est
+            cout << "---screen : La musique est déjà dans la bibliothèque "<< endl ;
          
          else{ // Si elle n'y est pas après le parcours , je l'ajoute 
                 Musique maMusique=Musique() ;
