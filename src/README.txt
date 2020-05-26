@@ -29,7 +29,8 @@ FONCTIONNEMENT:
 			/!\ ATTENTION /!\ Si le choix de l'utilisateur n'est pas dans la liste, une exception est levée et le programme s'arrête
 		NB: Nous avons choisi de taper directement la réponse sur le terminal même si cela ne représente pas réellement un interaction avec du hardware car nous aurions dû implementer une classe Clavier héritant de Device qui aurait lu la réponse que l'on aurait écrite directement dans un fichier texte ou depuis le terminal. Cela n'avait pas de grand intérêt étant donné ce qui a déjà été fait avant
 
-	6) Le pulse sensor mesure une pulsation et renvoie la valeur de celle-ci: Nous avons simulé une entrée analogique malgré que le vrai capteur envoie une PWM car simuler un système de gestion d'interruption sur front montant pour calculer la période nous aurait pris trop de temps. De ce fait, on a supposé que le capteur faisait lui-même le calcul de la pulsation et envoyait cette donnée analogique sur le pin d'entrée.
+	6) Le pulse sensor mesure une pulsation et renvoie la valeur de celle-ci. La board lit 10 valeurs pour faire une moyenne et arrondit à la dizaine près.
+		NB:Nous avons simulé une entrée analogique malgré que le vrai capteur envoie une PWM car simuler un système de gestion d'interruption sur front montant pour calculer la période nous aurait pris trop de temps. De ce fait, on a supposé que le capteur faisait lui-même le calcul de la pulsation et envoyait cette donnée analogique sur le pin d'entrée.
 
 	7) On soumet au module wifi une requête de musique dont les BPM sont égaux à ceux de la pulsation de l'utilisateur
 			/!\ ATTENTION /!\ Une musique avec les BPM souhaités doit exister dans le fichier src/Donnees_Spotify.txt sinon le Board-loop ne se débloque jamais
