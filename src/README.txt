@@ -33,7 +33,7 @@ FONCTIONNEMENT:
 		NB:Nous avons simulé une entrée analogique malgré que le vrai capteur envoie une PWM car simuler un système de gestion d'interruption sur front montant pour calculer la période nous aurait pris trop de temps. De ce fait, on a supposé que le capteur faisait lui-même le calcul de la pulsation et envoyait cette donnée analogique sur le pin d'entrée.
 
 	7) On soumet au module wifi une requête de musique dont les BPM sont égaux à ceux de la pulsation de l'utilisateur
-			/!\ ATTENTION /!\ Une musique avec les BPM souhaités doit exister dans le fichier src/Donnees_Spotify.txt sinon le Board-loop ne se débloque jamais
+			/!\ ATTENTION /!\ Une musique avec les BPM souhaités doit exister dans le fichier src/Donnees_Spotify.txt sinon le Board-loop ne se débloque jamais. La musique doit respecter la synthaxe suivante: "bpm:nom:<10 int pour les notes séparées d'une virgule (sauf la dernière) et sans espace>
 
 	8) On récupère la musique et on stocke la stocke dans notre bibliothèque si elle n'existe pas déjà
 
