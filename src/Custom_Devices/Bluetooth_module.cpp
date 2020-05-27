@@ -52,8 +52,9 @@ void UARTActuatorBluetoothModule::run(){
     while(1){
         
         // Réception des données de la musique à envoyer au device audio 
-        int i ; 
-        cout << endl << "---module bluetooth : J'ai bien reçu les données suivantes ";
+        int i ;
+        if ( (UARTbus!=NULL)&&!(UARTbus->isEmptyRegister(UARTaddr)))
+            cout << endl << "---module bluetooth : J'ai bien reçu les données suivantes ";
         for (i=0;i<10;i++){
             while(!trigger_get_values){}
                 if ( (UARTbus!=NULL)&&!(UARTbus->isEmptyRegister(UARTaddr))){
