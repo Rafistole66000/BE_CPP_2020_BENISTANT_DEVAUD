@@ -64,11 +64,16 @@ void Board::loop(){
         }           
     }
     
-    if(cpt%2==0 && cpt!=0){ //Passe la pulsation à 200 en moyenne au lieu de 120
+    if(cpt==1 && cpt!=0){ //Passe la pulsation à 200 en moyenne au lieu de 120
         //cout << "Pulsation changes";
         Time_Between_Two_Pulse=300;
     }
-    
+
+    if(cpt==2 && cpt!=0){ //Passe la pulsation à 200 en moyenne au lieu de 120
+        //cout << "Pulsation changes";
+        Time_Between_Two_Pulse=500;
+    }
+      
     cpt++;
     sleep(10);
   }
